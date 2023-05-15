@@ -3,15 +3,41 @@
 
 Board* initialBoard()
 {
-	Board* newBoard = (Board*)calloc(1, sizeof(Board));
-	strcpy(newBoard[0], " T T T T");
-	strcpy(newBoard[1], "T T T T ");
-	strcpy(newBoard[2], " T T T T");
-	strcpy(newBoard[3], "        ");
-	strcpy(newBoard[4], "        ");
-	strcpy(newBoard[5], "B B B B ");
-	strcpy(newBoard[6], " B B B B");
-	strcpy(newBoard[7], "B B B B ");
+	Board* newBoard = (Board*)malloc(sizeof(Board));
+	//checkalloc
+	char player = 'T';
+	for (int i = 0; i < 8; i++)
+	{
+		if (i == 3 || i == 4)
+		{
+			for (int j = 0; j < 8; j++)
+				(*newBoard)[i][j] = ' ';
+		}
+		else
+		{
+			if (i % 2 == 0) // row is even
+			{
+				for (int j = 0; j < 8; j = j + 2)
+					(*newBoard)[i][j] = ' ';
+
+				for (int j = 1; j < 8; j = j + 2)
+					(*newBoard)[i][j] = player;
+			}
+			else // row is odd
+			{
+				for (int j = 0; j < 8; j = j + 2)
+					(*newBoard)[i][j] = player;
+
+				for (int j = 1; j < 8; j = j + 2)
+					(*newBoard)[i][j] = ' ';
+			}
+		}
+
+		if (i == 2)
+		{
+			player = 'B';
+		}
+	}
 
 	return newBoard;
 }
@@ -32,7 +58,10 @@ void printBoard(Board board)
 {
 	for (int i = 0;i < 8;i++)
 	{
-		printf("%s", board[i]);
+		for (int j = 0; j < 8; j++)
+		{
+			printf("%c", board[i][j]);
+		}
 		printf("\n");
 	}
 }
