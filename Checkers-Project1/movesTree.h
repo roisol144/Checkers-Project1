@@ -1,7 +1,7 @@
 #pragma once
 #include "Board.h"
 
-
+// Structures
 typedef struct _SingleSourceMovesTreeNode
 {
 	Board board;
@@ -15,3 +15,6 @@ typedef struct _SingleSourceMovesTree
 	SingleSourceMovesTreeNode* source;
 
 }SingleSourceMovesTree;
+
+//This function will check the allocation of an object
+void checkAlloc(void* ptr, char* msg);
