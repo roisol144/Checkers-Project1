@@ -90,7 +90,6 @@ void checkAlloc(void* ptr, char* msg)
 }
 
 
-//This function will print who has the turn and the board after changes.
 void printTurn(Board board, Player player, checkersPos src, checkersPos dst)
 {
 	printf("%c's turn:\n");
