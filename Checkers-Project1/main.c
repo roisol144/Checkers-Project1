@@ -3,5 +3,8 @@
 
 void main()
 {
-	printBoard(*(initialBoard()));
+	Board* board1 = initialBoard();
+	Board board2;
+	memcpy(board2, *board1, 8 * 8 * sizeof(char));
+	printBoard(board2);
 }
