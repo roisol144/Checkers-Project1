@@ -4,7 +4,7 @@
 Board* initialBoard()
 {
 	Board* newBoard = (Board*)malloc(sizeof(Board));
-	checkAlloc(newBoard);
+	checkAlloc(newBoard, "Board Allocation Failed.");
 	char player = 'T';
 	for (int i = 0; i < 8; i++)
 	{
@@ -68,11 +68,11 @@ void printBoard(Board board)
 
 
 
-void checkAlloc(void* ptr)
+void checkAlloc(void* ptr, char* msg)
 {
-	if (!ptr)
+	if (ptr == NULL)
 	{
-		printf("Memory allocation failure!!!\n");
+		printf("Memory Allocation Failed in: %s", msg);
 		exit(1);
 	}
 }

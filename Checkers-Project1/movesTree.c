@@ -9,7 +9,7 @@ SingleSourceMovesTreeNode* createTreeNode(Board board, checkersPos* pos,
 	SingleSourceMovesTreeNode* res;
 	res = (SingleSourceMovesTreeNode*) malloc(sizeof(SingleSourceMovesTreeNode));
 	checkAlloc(res, "New Tree Node Allocation.");
-	res->board = board;
+	memcpy(res->board, board, 8*8*sizeof(char));
 	res->pos = pos;
 	res->total_captures_so_far = total_captures_so_far;
 
