@@ -16,11 +16,3 @@ SingleSourceMovesTreeNode* createTreeNode(Board board, checkersPos* pos,
 	return res;
 }
 
-void checkAlloc(void* ptr, char* msg)
-{
-	if (ptr == NULL)
-	{
-		printf("Memory Allocation Failed in: %s", msg);
-		exit(1);
-	}
-}
