@@ -1,0 +1,26 @@
+#include "Board.h"
+#include "movesTree.h"
+#define NEXT_ARR_SIZE 2
+
+
+SingleSourceMovesTreeNode* createTreeNode(Board board, checkersPos* pos,
+	unsigned short total_captures_so_far, SingleSourceMovesTreeNode* next_move[NEXT_ARR_SIZE])
+{
+	SingleSourceMovesTreeNode* res;
+	res = (SingleSourceMovesTreeNode*) malloc(sizeof(SingleSourceMovesTreeNode));
+	checkAlloc(res, "New Tree Node Allocation.");
+	res->board = board;
+	res->pos = pos;
+	res->total_captures_so_far = total_captures_so_far;
+
+	return res;
+}
+
+void checkAlloc(void* ptr, char* msg)
+{
+	if (ptr == NULL)
+	{
+		printf("Memory Allocation Failed in: %s", msg);
+		exit(1);
+	}
+}
