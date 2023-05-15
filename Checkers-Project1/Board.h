@@ -23,4 +23,4 @@ typedef struct _checkersPos
 Board* initialBoard();
 bool isCheckerExist(Board board, checkersPos* pos, Player* player);
 void printBoard(Board board);
-void checkAlloc(void* ptr);
+void checkAlloc(void* ptr, char* msg);

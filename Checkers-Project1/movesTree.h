@@ -16,5 +16,3 @@ typedef struct _SingleSourceMovesTree
 
 }SingleSourceMovesTree;
 
-//This function will check the allocation of an object
-void checkAlloc(void* ptr, char* msg);
