@@ -24,3 +24,4 @@ Board* initialBoard();
 bool isCheckerExist(Board board, checkersPos* pos, Player* player);
 void printBoard(Board board);
 void checkAlloc(void* ptr, char* msg);
+void printTurn(Board board, Player player, checkersPos src, checkersPos dst);
