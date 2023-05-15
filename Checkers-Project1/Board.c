@@ -56,14 +56,26 @@ bool isCheckerExist(Board board, checkersPos* pos, Player* player)
 
 void printBoard(Board board)
 {
+	printf("+-+-+-+-+-+-+-+-+-+\n");
+	printf("+ ");
+	for (int i = 1; i < 9; i++)
+	{
+		printf("|%d", i); 
+		(i == 8) ? printf("|") : printf("");
+	}
+	printf("\n");
 	for (int i = 0;i < 8;i++)
 	{
+		printf("+-+-+-+-+-+-+-+-+-+\n");
+		printf("|%c", 'A' + i);
 		for (int j = 0; j < 8; j++)
 		{
-			printf("%c", board[i][j]);
+			printf("|%c", board[i][j]);
+			(j == 7) ? printf("|") : printf("");
 		}
 		printf("\n");
 	}
+	printf("+-+-+-+-+-+-+-+-+-+\n");
 }
 
 
