@@ -6,6 +6,7 @@
 
 #define BOARD_SIZE 8
 #define _CRT_SECURE_NO_WARNINGS
+
 // Custing a char
 #define CHARTOROW( X ) ( ( X ) - 64 )
 #define CHARTOCOL( X ) ( ( X ) - 48 )
