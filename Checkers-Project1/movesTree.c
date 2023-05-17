@@ -87,13 +87,13 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 	
 	
 	
-	if (board[CHARTOROW(currPos->row)][CHARTOCOL(currPos->col)] == p)
-	{
-		checkCapsOnly = false;
-	}
+		if (board[CHARTOROW(currPos->row)][CHARTOCOL(currPos->col)] == p)
+		{
+			checkCapsOnly = false;
+		}
 
-	// here we check for the possible move on the right to our curr location
-	checkersPos* posRight = getNextMove(board, *currPos, RIGHT, checkCapsOnly,p);
+		// here we check for the possible move on the right to our curr location
+		checkersPos* posRight = getNextMove(board, *currPos, RIGHT, checkCapsOnly,p);
 	
 		if (posRight!=NULL && isMoveCapture(*currPos, *posRight))
 		{

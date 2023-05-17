@@ -58,8 +58,8 @@ Board* initialBoard()
 		}
 	}
 	(*newBoard)[3][3] = 'T';
-	(*newBoard)[4][2] = ' ';
-	(*newBoard)[4][4] = ' ';
+	(*newBoard)[4][2] = 'B';
+	(*newBoard)[4][4] = 'B';
 	(*newBoard)[6][0] = 'B';
 	(*newBoard)[6][4] = 'B';
 	(*newBoard)[6][6] = 'B';
