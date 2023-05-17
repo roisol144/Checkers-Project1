@@ -4,21 +4,25 @@
 #define LEFT 0
 #define RIGHT 1
 
-/*
-SingleSourceMovesTreeNode* createTreeNode(Board board, checkersPos* pos,
-	unsigned short total_captures_so_far, SingleSourceMovesTreeNode* next_move[])
-{
-	//Board - 
-	SingleSourceMovesTreeNode* res;
-	res = (SingleSourceMovesTreeNode*) malloc(sizeof(SingleSourceMovesTreeNode));
-	checkAlloc(res, "New Tree Node Allocation.");
-	memcpy(res->board, board, 8*8*sizeof(char));
-	res->pos = pos;
-	res->total_captures_so_far = total_captures_so_far;
 
-	return res;
+SingleSourceMovesTreeNode* createTreeNode(Board board, checkersPos* currPos,
+	unsigned short prevCaps, SingleSourceMovesTreeNode* left, SingleSourceMovesTreeNode* right)
+{
+	SingleSourceMovesTreeNode* r = (SingleSourceMovesTreeNode*)malloc(sizeof(SingleSourceMovesTreeNode));
+	checkAlloc(r, "Failed TreeNode Allocation!");
+
+	r->pos = currPos; // hasama shel hamikum
+
+	memcpy(r->board, board, 8 * 8 * sizeof(char));//TODO - haklata
+
+	//initial left and right moves to NULL
+	r->next_move[0] = left;
+	r->next_move[1] = right;
+
+	r->total_captures_so_far = prevCaps;
+
+	return r;
 }
-*/
 
 SingleSourceMovesTree* FindSingleSourceMoves(Board board, checkersPos* src)
 {
@@ -46,24 +50,29 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 	checkAlloc(r, "Failed TreeNode Allocation!");
 
 	
-	r->pos = currPos; // hasama shel hamikum
+//	r->pos = currPos; // hasama shel hamikum
 
-	memcpy(r->board, board, 8 * 8 * sizeof(char));//TODO - haklata 
+//	memcpy(r->board, board, 8 * 8 * sizeof(char));//TODO - haklata 
 
 	//initial left and right moves to NULL
-	r->next_move[0] = NULL;
-	r->next_move[1] = NULL;
+//	r->next_move[0] = NULL;
+//	r->next_move[1] = NULL;
 
-	r->total_captures_so_far = prevCaps;
+//	r->total_captures_so_far = prevCaps;
+
+	//creating a new node
+	r = createTreeNode(board, currPos, prevCaps, checkCapsOnly, NULL, NULL);
 	
-	//if move illegal this puts NULL;
-	checkersPos* posLeft = getNextMove(board, *currPos, LEFT, checkCapsOnly);//true for left
+	// here we check for the possible move on the left to our curr location
+	checkersPos* posLeft = getNextMove(board, *currPos, LEFT, checkCapsOnly);
 	if (posLeft != NULL)
 	{
-		if (isMoveCapture(*currPos,*posLeft))//TODO isMoveCapture
+		// There's a possible move to the right
+		if (isMoveCapture(*currPos,*posLeft)) // check if the move is capture move.
 		{
-			checkCapsOnly = true;
-			r->next_move[0] = helper(board, posLeft, prevCaps + 1, checkCapsOnly);
+			checkCapsOnly = true; // true - it is a capture move
+			// Passing to the next iteration the prevCaps incremented by 1 for the capture.
+			r->next_move[0] = helper(board, posLeft, prevCaps + 1, checkCapsOnly); 
 		}
 		else
 		{
@@ -71,32 +80,196 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 		}
 	}
 		
-
-	checkersPos* posRight = getNextMove(board, *currPos, RIGHT, checkCapsOnly);//false for righe
+	// here we check for the possible move on the right to our curr location
+	checkersPos* posRight = getNextMove(board, *currPos, RIGHT, checkCapsOnly);
 	if (posRight != NULL)
 	{
-		if (isMoveCapture(*currPos, *posRight))//TODO isMoveCapture
+		if (isMoveCapture(*currPos, *posRight))
 		{
-			checkCapsOnly = true;
+			checkCapsOnly = true;// true - it is a capture move
+			// Passing to the next iteration the prevCaps incremented by 1 for the capture.
 			r->next_move[1] = helper(board, posRight, prevCaps + 1, checkCapsOnly);
 		}
 		else
-		{
 			r->next_move[1] = helper(board, posRight, prevCaps, checkCapsOnly);
-		}
 	}
-	
-
-
 }
+
 
 bool isMoveCapture(checkersPos pos1, checkersPos pos2)
 {
+	if (abs(pos1.col - pos2.col) == 2  && abs(pos1.row - pos2.row) == 2)
+		return true;
 
+	return false;
 }
 
-checkersPos* getNextMove(Board board,checkersPos pos,int dir,bool isCapture)
+bool isOnBoard(int row, int col)
 {
+	return ((row <= 8 && row >= 1) && (col <= 8 && col >= 1)) ? true : false;
+}
 
+
+checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture)
+{
+	checkersPos* nextPos = (checkersPos*)malloc(sizeof(checkersPos));
+	checkAlloc(nextPos, "Failed checkersPos Allocation!");
+	nextPos->row = 0;
+	nextPos->col = 0;
+
+	int currRow = CHARTOROW(pos.row) - 1;
+	int currCol = CHARTOCOL(pos.col) - 1;
+
+	Player p = board[currRow][currCol];// get on which player we check
+
+
+	switch (dir)
+	{
+	case LEFT: // check left move
+	{
+		if (p == 'T')
+		{
+			if (isCapture) // in capture mode, check only capture moves
+			{
+
+
+				if (isOnBoard(currRow + 1, currCol - 1) && isOnBoard(currRow + 2, currCol - 2) &&
+					board[currRow + 1][currCol - 1] == 'B' && board[currRow + 2][currCol - 2] == ' ') // can capture left
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row + 2;
+					nextPos->col = pos.col - 2;
+				}
+
+			}
+			else // not in capture mode, check all moves
+			{
+				if (isOnBoard(currRow + 1, currCol - 1) && board[currRow + 1][currCol - 1] == ' ')
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row + 1;
+					nextPos->col = pos.col - 1;
+				}
+
+				if (isOnBoard(currRow + 1, currCol - 1) && isOnBoard(currRow + 2, currCol - 2) &&
+					board[currRow + 1][currCol - 1] == 'B' && board[currRow + 2][currCol - 2] == ' ') // can capture left
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row + 2;
+					nextPos->col = pos.col - 2;
+				}
+
+			}
+		}
+		else // p=='B'
+		{
+			if (isCapture) // in capture mode, check only capture moves
+			{
+
+
+				if (isOnBoard(currRow - 1, currCol - 1) && isOnBoard(currRow - 2, currCol - 2) &&
+					board[currRow - 1][currCol - 1] == 'T' && board[currRow - 2][currCol - 2] == ' ') // can capture left
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row - 2;
+					nextPos->col = pos.col - 2;
+				}
+
+			}
+			else // not in capture mode, check all moves
+			{
+				if (isOnBoard(currRow - 1, currCol - 1) && board[currRow - 1][currCol - 1] == ' ')
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row - 1;
+					nextPos->col = pos.col - 1;
+				}
+
+				if (isOnBoard(currRow - 1, currCol - 1) && isOnBoard(currRow - 2, currCol - 2) &&
+					board[currRow - 1][currCol - 1] == 'T' && board[currRow - 2][currCol - 2] == ' ') // can capture left
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row - 2;
+					nextPos->col = pos.col - 2;
+				}
+
+			}
+		}
+		break;
+	}
+
+	case RIGHT: // check right move
+	{
+		if (p == 'T')
+		{
+			if (isCapture) // in capture mode, check only capture moves
+			{
+				if (isOnBoard(currRow + 1, currCol + 1) && isOnBoard(currRow + 2, currCol + 2) &&
+					board[currRow + 1][currCol + 1] == 'B' && board[currRow + 2][currCol + 2] == ' ') // can capture left
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row + 2;
+					nextPos->col = pos.col + 2;
+				}
+			}
+			else // not in capture mode, check all moves
+			{
+				if (isOnBoard(currRow + 1, currCol + 1) && board[currRow + 1][currCol + 1] == ' ')
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row + 1;
+					nextPos->col = pos.col + 1;
+				}
+
+				if (isOnBoard(currRow + 1, currCol + 1) && isOnBoard(currRow + 2, currCol + 2) &&
+					board[currRow + 1][currCol + 1] == 'B' && board[currRow + 2][currCol + 2] == ' ') // can capture left
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row + 2;
+					nextPos->col = pos.col + 2;
+				}
+			}
+		}
+		else // p=='B'
+		{
+			if (isCapture) // in capture mode, check only capture moves
+			{
+				if (isOnBoard(currRow - 1, currCol + 1) && isOnBoard(currRow - 2, currCol + 2) &&
+					board[currRow - 1][currCol + 1] == 'T' && board[currRow - 2][currCol + 2] == ' ') // can capture left
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row - 2;
+					nextPos->col = pos.col + 2;
+				}
+			}
+			else // not in capture mode, check all moves
+			{
+				if (isOnBoard(currRow - 1, currCol + 1) && board[currRow - 1][currCol + 1] == ' ')
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row - 1;
+					nextPos->col = pos.col + 1;
+				}
+
+				if (isOnBoard(currRow - 1, currCol + 1) && isOnBoard(currRow - 2, currCol + 2) &&
+					board[currRow - 1][currCol + 1] == 'T' && board[currRow - 2][currCol + 2] == ' ') // can capture left
+				{
+					//give nextPos this pos and return
+					nextPos->row = pos.row - 2;
+					nextPos->col = pos.col + 2;
+				}
+			}
+		}
+		break;
+	}
+	default: break;
+
+	}
+
+	if (nextPos->row != 0 && nextPos->col != 0)
+		return nextPos;
+
+	free(nextPos);
+	return NULL;
 }
 
