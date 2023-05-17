@@ -8,8 +8,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 // Custing a char
-#define CHARTOROW( X ) ( ( X ) - 64 )
-#define CHARTOCOL( X ) ( ( X ) - 48 )
+#define CHARTOROW( X ) ( ( X ) - 65 )
+#define CHARTOCOL( X ) ( ( X ) - 49 )
 
 
 // Structres 

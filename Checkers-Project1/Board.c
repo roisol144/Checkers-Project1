@@ -45,7 +45,7 @@ Board* initialBoard()
 }
 */
 
-Board* initBoard()
+Board* initialBoard()
 {
 	Board* newBoard = (Board*)malloc(sizeof(Board));
 	checkAlloc(newBoard, "Board Allocation Failed.");
@@ -64,16 +64,17 @@ Board* initBoard()
 	(*newBoard)[6][4] = 'B';
 	(*newBoard)[6][6] = 'B';
 
+	return newBoard;
 
 }
 
-bool isCheckerExist(Board board, checkersPos* pos, Player* player)
+bool isCheckerExist(Board board, checkersPos* pos, Player player)
 {
 	char checker = board[CHARTOROW(pos->row)][CHARTOCOL(pos->col)];
 
 	if (checker != ' ')
 	{
-		*player = checker;
+		player = checker;
 		return true;
 	}
 	return false;

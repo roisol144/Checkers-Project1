@@ -29,6 +29,7 @@ SingleSourceMovesTree* FindSingleSourceMoves(Board board, checkersPos* src)
 	bool checkCapsOnly = false;
 	int prevCaps = 0;
 	SingleSourceMovesTree* resTree; //This will be the returned tree.
+	Player p;
 	
 	if (!isCheckerExist(board, src, 'T') && !isCheckerExist(board, src, 'B'))
 		return NULL;
@@ -37,14 +38,20 @@ SingleSourceMovesTree* FindSingleSourceMoves(Board board, checkersPos* src)
 	{
 		resTree = (SingleSourceMovesTree*)malloc(sizeof(SingleSourceMovesTree));
 		checkAlloc(resTree,"Failed Tree Allocation!");
-		resTree->source = helper(board, src, prevCaps,checkCapsOnly);
+		p = board[CHARTOROW(src->row)][CHARTOCOL(src->col)];
+		resTree->source = helper(board, src, prevCaps,checkCapsOnly,p);
 
 	}
 
+	return resTree;
+
 }
 
-SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps,bool checkCapsOnly)
+SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps,bool checkCapsOnly,Player p)
 {
+	if (currPos == NULL)
+		return NULL;
+
 	//create TN
 	SingleSourceMovesTreeNode* r = (SingleSourceMovesTreeNode*)malloc(sizeof(SingleSourceMovesTreeNode));
 	checkAlloc(r, "Failed TreeNode Allocation!");
@@ -64,35 +71,51 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 	r = createTreeNode(board, currPos, prevCaps, checkCapsOnly, NULL, NULL);
 	
 	// here we check for the possible move on the left to our curr location
-	checkersPos* posLeft = getNextMove(board, *currPos, LEFT, checkCapsOnly);
+	checkersPos* posLeft = getNextMove(board, *currPos, LEFT, checkCapsOnly,p);
 	if (posLeft != NULL)
 	{
 		// There's a possible move to the right
-		if (isMoveCapture(*currPos,*posLeft)) // check if the move is capture move.
+		if (isMoveCapture(*currPos, *posLeft)) // check if the move is capture move.
 		{
 			checkCapsOnly = true; // true - it is a capture move
 			// Passing to the next iteration the prevCaps incremented by 1 for the capture.
-			r->next_move[0] = helper(board, posLeft, prevCaps + 1, checkCapsOnly); 
+			r->next_move[0] = helper(board, posLeft, prevCaps + 1, checkCapsOnly, p);
 		}
 		else
 		{
-			r->next_move[0] = helper(board, posLeft, prevCaps, checkCapsOnly);
+			r->next_move[0] = helper(board, posLeft, prevCaps, checkCapsOnly, p);
 		}
 	}
-		
+	else
+	{
+		r->next_move[0] = helper(board, NULL, prevCaps, checkCapsOnly, p);
+	}
+	
+	if (board[CHARTOROW(currPos->row)][CHARTOCOL(currPos->col)] == p)
+	{
+		checkCapsOnly = false;
+	}
+
 	// here we check for the possible move on the right to our curr location
-	checkersPos* posRight = getNextMove(board, *currPos, RIGHT, checkCapsOnly);
+	checkersPos* posRight = getNextMove(board, *currPos, RIGHT, checkCapsOnly,p);
 	if (posRight != NULL)
 	{
 		if (isMoveCapture(*currPos, *posRight))
 		{
 			checkCapsOnly = true;// true - it is a capture move
 			// Passing to the next iteration the prevCaps incremented by 1 for the capture.
-			r->next_move[1] = helper(board, posRight, prevCaps + 1, checkCapsOnly);
+			r->next_move[1] = helper(board, posRight, prevCaps + 1, checkCapsOnly, p);
 		}
 		else
-			r->next_move[1] = helper(board, posRight, prevCaps, checkCapsOnly);
+			r->next_move[1] = helper(board, posRight, prevCaps, checkCapsOnly, p);
 	}
+	else
+	{
+		r->next_move[1] = helper(board, NULL, prevCaps, checkCapsOnly, p);
+	}
+	
+	
+	return r;
 }
 
 
@@ -106,21 +129,20 @@ bool isMoveCapture(checkersPos pos1, checkersPos pos2)
 
 bool isOnBoard(int row, int col)
 {
-	return ((row <= 8 && row >= 1) && (col <= 8 && col >= 1)) ? true : false;
+	return ((row <= 7 && row >= 0) && (col <= 7 && col >= 0)) ? true : false;
 }
 
-
-checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture)
+checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,Player p)
 {
 	checkersPos* nextPos = (checkersPos*)malloc(sizeof(checkersPos));
 	checkAlloc(nextPos, "Failed checkersPos Allocation!");
 	nextPos->row = 0;
 	nextPos->col = 0;
 
-	int currRow = CHARTOROW(pos.row) - 1;
-	int currCol = CHARTOCOL(pos.col) - 1;
+	int currRow = CHARTOROW(pos.row);
+	int currCol = CHARTOCOL(pos.col);
 
-	Player p = board[currRow][currCol];// get on which player we check
+	
 
 
 	switch (dir)
@@ -272,4 +294,5 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture)
 	free(nextPos);
 	return NULL;
 }
+
 
