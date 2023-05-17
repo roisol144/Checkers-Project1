@@ -53,8 +53,9 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 		return NULL;
 
 	//create TN
-	SingleSourceMovesTreeNode* r = (SingleSourceMovesTreeNode*)malloc(sizeof(SingleSourceMovesTreeNode));
-	checkAlloc(r, "Failed TreeNode Allocation!");
+	SingleSourceMovesTreeNode* r;
+		//= (SingleSourceMovesTreeNode*)malloc(sizeof(SingleSourceMovesTreeNode));
+	//checkAlloc(r, "Failed TreeNode Allocation!");
 
 	
 //	r->pos = currPos; // hasama shel hamikum
@@ -72,24 +73,19 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 	
 	// here we check for the possible move on the left to our curr location
 	checkersPos* posLeft = getNextMove(board, *currPos, LEFT, checkCapsOnly,p);
-	if (posLeft != NULL)
-	{
+	
 		// There's a possible move to the right
-		if (isMoveCapture(*currPos, *posLeft)) // check if the move is capture move.
+		if (posLeft!=NULL && isMoveCapture(*currPos, *posLeft)) // check if the move is capture move.
 		{
 			checkCapsOnly = true; // true - it is a capture move
 			// Passing to the next iteration the prevCaps incremented by 1 for the capture.
-			r->next_move[0] = helper(board, posLeft, prevCaps + 1, checkCapsOnly, p);
+			prevCaps++;
+			
 		}
-		else
-		{
-			r->next_move[0] = helper(board, posLeft, prevCaps, checkCapsOnly, p);
-		}
-	}
-	else
-	{
-		r->next_move[0] = helper(board, NULL, prevCaps, checkCapsOnly, p);
-	}
+
+		r->next_move[0] = helper(board, posLeft, prevCaps, checkCapsOnly, p);
+	
+	
 	
 	if (board[CHARTOROW(currPos->row)][CHARTOCOL(currPos->col)] == p)
 	{
@@ -98,21 +94,16 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 
 	// here we check for the possible move on the right to our curr location
 	checkersPos* posRight = getNextMove(board, *currPos, RIGHT, checkCapsOnly,p);
-	if (posRight != NULL)
-	{
-		if (isMoveCapture(*currPos, *posRight))
+	
+		if (posRight!=NULL && isMoveCapture(*currPos, *posRight))
 		{
 			checkCapsOnly = true;// true - it is a capture move
 			// Passing to the next iteration the prevCaps incremented by 1 for the capture.
-			r->next_move[1] = helper(board, posRight, prevCaps + 1, checkCapsOnly, p);
+			prevCaps++;
 		}
-		else
-			r->next_move[1] = helper(board, posRight, prevCaps, checkCapsOnly, p);
-	}
-	else
-	{
-		r->next_move[1] = helper(board, NULL, prevCaps, checkCapsOnly, p);
-	}
+		
+		r->next_move[1] = helper(board, posRight, prevCaps, checkCapsOnly, p);
+	
 	
 	
 	return r;
@@ -166,7 +157,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 			}
 			else // not in capture mode, check all moves
 			{
-				if (isOnBoard(currRow + 1, currCol - 1) && board[currRow + 1][currCol - 1] == ' ')
+				if (board[currRow][currCol] == 'T' && isOnBoard(currRow + 1, currCol - 1) && board[currRow + 1][currCol - 1] == ' ')
 				{
 					//give nextPos this pos and return
 					nextPos->row = pos.row + 1;
@@ -200,7 +191,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 			}
 			else // not in capture mode, check all moves
 			{
-				if (isOnBoard(currRow - 1, currCol - 1) && board[currRow - 1][currCol - 1] == ' ')
+				if (board[currRow][currCol] == 'B' && isOnBoard(currRow - 1, currCol - 1) && board[currRow - 1][currCol - 1] == ' ')
 				{
 					//give nextPos this pos and return
 					nextPos->row = pos.row - 1;
@@ -236,7 +227,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 			}
 			else // not in capture mode, check all moves
 			{
-				if (isOnBoard(currRow + 1, currCol + 1) && board[currRow + 1][currCol + 1] == ' ')
+				if (board[currRow][currCol] == 'T' && isOnBoard(currRow + 1, currCol + 1) && board[currRow + 1][currCol + 1] == ' ')
 				{
 					//give nextPos this pos and return
 					nextPos->row = pos.row + 1;
@@ -266,7 +257,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 			}
 			else // not in capture mode, check all moves
 			{
-				if (isOnBoard(currRow - 1, currCol + 1) && board[currRow - 1][currCol + 1] == ' ')
+				if (board[currRow][currCol] == 'B' && isOnBoard(currRow - 1, currCol + 1) && board[currRow - 1][currCol + 1] == ' ')
 				{
 					//give nextPos this pos and return
 					nextPos->row = pos.row - 1;
