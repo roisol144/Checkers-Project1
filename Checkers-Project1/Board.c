@@ -45,6 +45,18 @@ Board* initialBoard()
 }
 */
 
+// ** Debug Board Exp. ** // 
+/*
+Board board = { {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
+				{'T', ' ', 'T', ' ', 'T', ' ', 'T', ' '},
+				{' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
+				{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+				{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+				{'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '},
+				{' ', 'B', ' ', 'B', ' ', 'B', ' ', 'B'},
+				{'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '}};
+*/
+
 Board* initialBoard()
 {
 	Board* newBoard = (Board*)malloc(sizeof(Board));
@@ -65,7 +77,6 @@ Board* initialBoard()
 	(*newBoard)[6][6] = 'B';
 
 	return newBoard;
-
 }
 
 bool isCheckerExist(Board board, checkersPos* pos, Player player)
