@@ -27,7 +27,7 @@ typedef struct _checkersPos
 Board* initialBoard();
 
 // ** Function Checking if there's a checker in certain place on board ** // 
-bool isCheckerExist(Board board, checkersPos* pos, Player* player);
+bool isCheckerExist(Board board, checkersPos* pos, Player player);
 
 // ** Function printing current state of the board.
 void printBoard(Board board);

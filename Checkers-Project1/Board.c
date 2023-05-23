@@ -57,6 +57,7 @@ Board board = { {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
 				{'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '}};
 */
 
+
 Board* initialBoard()
 {
 	Board* newBoard = (Board*)malloc(sizeof(Board));
@@ -78,6 +79,7 @@ Board* initialBoard()
 
 	return newBoard;
 }
+
 
 bool isCheckerExist(Board board, checkersPos* pos, Player player)
 {
