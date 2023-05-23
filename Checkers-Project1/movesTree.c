@@ -139,8 +139,6 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 		{
 			if (isCapture) // in capture mode, check only capture moves
 			{
-
-
 				if (isOnBoard(currRow + 1, currCol - 1) && isOnBoard(currRow + 2, currCol - 2) &&
 					tmpBoard[currRow + 1][currCol - 1] == 'B' && tmpBoard[currRow + 2][currCol - 2] == ' ') // can capture left
 				{
@@ -150,7 +148,6 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 					capturedPos.row = pos.row + 1;
 					capturedPos.col = pos.col - 1;
 				}
-
 			}
 			else // not in capture mode, check all moves
 			{
