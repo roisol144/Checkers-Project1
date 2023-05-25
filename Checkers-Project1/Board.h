@@ -11,6 +11,9 @@
 #define CHARTOROW( X ) ( ( X ) - 65 )
 #define CHARTOCOL( X ) ( ( X ) - 49 )
 
+#define LEFT 0
+#define RIGHT 1
+
 
 // Structres 
 typedef unsigned char Board[BOARD_SIZE][BOARD_SIZE];

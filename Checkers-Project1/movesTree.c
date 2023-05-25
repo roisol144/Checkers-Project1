@@ -1,8 +1,7 @@
 #include "Board.h"
 #include "movesTree.h"
 #define NEXT_ARR_SIZE 2
-#define LEFT 0
-#define RIGHT 1
+
 
 
 SingleSourceMovesTreeNode* createTreeNode(Board board, checkersPos* currPos,
@@ -16,8 +15,8 @@ SingleSourceMovesTreeNode* createTreeNode(Board board, checkersPos* currPos,
 	memcpy(r->board, board, 8 * 8 * sizeof(char));//TODO - haklata
 
 	//initial left and right moves to NULL
-	r->next_move[0] = left;
-	r->next_move[1] = right;
+	r->next_move[LEFT] = left;
+	r->next_move[RIGHT] = right;
 
 	r->total_captures_so_far = prevCaps;
 
@@ -70,11 +69,11 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 		{
 			checkCapsOnly = true; // true - it is a capture move
 			// Passing to the next iteration the prevCaps incremented by 1 for the capture.
-			r->next_move[0] = helper(tmpBoard, posLeft, prevCaps + 1, checkCapsOnly, p, true);
+			r->next_move[LEFT] = helper(tmpBoard, posLeft, prevCaps + 1, checkCapsOnly, p, true);
 			
 		}
 		else
-			r->next_move[0] = helper(tmpBoard, posLeft, prevCaps, checkCapsOnly, p,true);
+			r->next_move[LEFT] = helper(tmpBoard, posLeft, prevCaps, checkCapsOnly, p,true);
 		
 		if (r->total_captures_so_far==0 && !isMoved)
 		{
@@ -88,10 +87,10 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 		{
 			checkCapsOnly = true;// true - it is a capture move
 			// Passing to the next iteration the prevCaps incremented by 1 for the capture.
-			r->next_move[1] = helper(tmpBoard, posRight, prevCaps + 1, checkCapsOnly, p, true);
+			r->next_move[RIGHT] = helper(tmpBoard, posRight, prevCaps + 1, checkCapsOnly, p, true);
 		}
 		else
-			r->next_move[1] = helper(tmpBoard, posRight, prevCaps, checkCapsOnly, p, true);
+			r->next_move[RIGHT] = helper(tmpBoard, posRight, prevCaps, checkCapsOnly, p, true);
 
 	return r;
 }
@@ -323,8 +322,8 @@ void helperPrint(SingleSourceMovesTreeNode* root)
 		return;
 	printf("Row: %c , Col: %c ,Cap: %d\n", root->pos->row, root->pos->col, root->total_captures_so_far);
 	printBoard(root->board);
-	helperPrint(root->next_move[0]);
-	helperPrint(root->next_move[1]);
+	helperPrint(root->next_move[LEFT]);
+	helperPrint(root->next_move[RIGHT]);
 }
 
 

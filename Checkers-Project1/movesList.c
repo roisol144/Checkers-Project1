@@ -28,7 +28,7 @@ void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceM
         *isFound = true;
     }
 
-    helperFindSingleSourceOptimalMove(res, root->next_move[0], isFound, maxNode);
+    helperFindSingleSourceOptimalMove(res, root->next_move[LEFT], isFound, maxNode);
 
     if (*isFound == true)
     {
@@ -36,7 +36,7 @@ void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceM
         return;
     }
 
-    helperFindSingleSourceOptimalMove(res, root->next_move[1], isFound, maxNode);
+    helperFindSingleSourceOptimalMove(res, root->next_move[RIGHT], isFound, maxNode);
 
     if (*isFound == true)
     {
@@ -68,8 +68,8 @@ void helperGetMaxPos(SingleSourceMovesTreeNode* root, SingleSourceMovesTreeNode*
     if (root == NULL)
         return;
 
-    helperGetMaxPos(root->next_move[0], tmpMax, treeHeight, p, isFound);
-    helperGetMaxPos(root->next_move[1], tmpMax, treeHeight, p, isFound);
+    helperGetMaxPos(root->next_move[LEFT], tmpMax, treeHeight, p, isFound);
+    helperGetMaxPos(root->next_move[RIGHT], tmpMax, treeHeight, p, isFound);
     if (!(*isFound) && root->total_captures_so_far == treeHeight)
     {
         *isFound = true;
@@ -86,38 +86,38 @@ void helperGetMaxPos(SingleSourceMovesTreeNode* root, SingleSourceMovesTreeNode*
 SingleSourceMovesTreeNode* privateCaseTreeOne(Player p, SingleSourceMovesTree* tr)
 {
     // in case the tree is only a leaf.
-    if (tr->source->next_move[0] == NULL && tr->source->next_move[1] == NULL)
+    if (tr->source->next_move[LEFT] == NULL && tr->source->next_move[RIGHT] == NULL)
         return tr->source;
 
-    else if (tr->source->next_move[0] != NULL && tr->source->next_move[1] != NULL)
+    else if (tr->source->next_move[LEFT] != NULL && tr->source->next_move[RIGHT] != NULL)
     {
         switch (p)
         {
         case 'T':
-            if (isMoveCapture(*(tr->source->next_move[1]->pos), *(tr->source->pos)))
+            if (isMoveCapture(*(tr->source->next_move[RIGHT]->pos), *(tr->source->pos)))
             { // right move is capture - return right move
-                return tr->source->next_move[1];
+                return tr->source->next_move[RIGHT];
             }
             else
             {
-                if (isMoveCapture(*(tr->source->next_move[0]->pos), *(tr->source->pos)))
+                if (isMoveCapture(*(tr->source->next_move[LEFT]->pos), *(tr->source->pos)))
                 {
-                    return tr->source->next_move[0];
+                    return tr->source->next_move[LEFT];
                 }
-                return tr->source->next_move[1];
+                return tr->source->next_move[RIGHT];
             }
         case 'B':
-            if (isMoveCapture(*(tr->source->next_move[0]->pos), *(tr->source->pos)))
+            if (isMoveCapture(*(tr->source->next_move[LEFT]->pos), *(tr->source->pos)))
             { // right move is capture - return right move
-                return tr->source->next_move[0];
+                return tr->source->next_move[LEFT];
             }
             else
             {
-                if (isMoveCapture(*(tr->source->next_move[1]->pos), *(tr->source->pos)))
+                if (isMoveCapture(*(tr->source->next_move[RIGHT]->pos), *(tr->source->pos)))
                 {
-                    return tr->source->next_move[1];
+                    return tr->source->next_move[RIGHT];
                 }
-                return tr->source->next_move[0];
+                return tr->source->next_move[LEFT];
             }
 
         default:
@@ -125,13 +125,13 @@ SingleSourceMovesTreeNode* privateCaseTreeOne(Player p, SingleSourceMovesTree* t
         }
     }
 
-    else if (tr->source->next_move[0] != NULL)
+    else if (tr->source->next_move[LEFT] != NULL)
     {
-        return tr->source->next_move[0];
+        return tr->source->next_move[LEFT];
     }
     else
     {
-        return tr->source->next_move[1];
+        return tr->source->next_move[RIGHT];
     }
 }
 
@@ -261,8 +261,8 @@ int helperFindTreeHeight(SingleSourceMovesTreeNode* nodeP, int level)
         return ERROR_LVL;
     else
     {
-        leftHeight = helperFindTreeHeight(nodeP->next_move[0], level + 1);
-        rightHeight = helperFindTreeHeight(nodeP->next_move[1], level + 1);
+        leftHeight = helperFindTreeHeight(nodeP->next_move[LEFT], level + 1);
+        rightHeight = helperFindTreeHeight(nodeP->next_move[RIGHT], level + 1);
         return 1 + max(leftHeight, rightHeight);
     }
 }
