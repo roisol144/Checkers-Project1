@@ -27,13 +27,24 @@ void main()
 					{'B', ' ', 'B', ' ', ' ', ' ', 'B', ' '},//F
 					{' ', 'B', 'T', ' ', 'T', 'B', ' ', 'B'},//G
 					{' ', ' ', ' ', 'B', ' ', ' ', ' ', ' '} };//H
+
+
+						//1	   2    3    4    5    6    7    8
+	Board fullBoard = { {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},//A
+					    {'T', ' ', 'T', ' ', 'T', ' ', 'T', ' '},//B
+					    {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},//C
+					    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},//D
+					    {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},//E
+					    {'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '},//F
+					    {' ', 'B', ' ', 'B', ' ', 'B', ' ', 'B'},//G
+					    {'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '} };//H
 					
 	//Board* board1 = initialBoard();
 	SingleSourceMovesTreeNode* max;
 	SingleSourceMovesList* lst;
-	printBoard(board);
-	checkersPos temp = { 'A','4' };
-	SingleSourceMovesTree tr = *(FindSingleSourceMoves(board, &temp));
+	printBoard(fullBoard);
+	checkersPos temp = { 'F','5' };
+	SingleSourceMovesTree tr = *(FindSingleSourceMoves(fullBoard, &temp));
 	printTree(tr);
 	printf("Height: %d\n", findTreeHeight(&tr));
 	max = getMaxPos(&tr);
