@@ -34,13 +34,14 @@ SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_
 // ** Private case handling. ** //
 SingleSourceMovesTreeNode* privateCaseTreeOne(Player p, SingleSourceMovesTree* tr);
 // ** Function checks if the next move on the tree of the optimal move is right - return true if so ** //
-bool isPosRight(checkersPos currPos, checkersPos lastPos);
+//bool isPosRight(checkersPos currPos, checkersPos lastPos);
 
 
 // *** List Functions *** //
 
 // ** Creating Empty List **//
-SingleSourceMovesList* createEmptyList(SingleSourceMovesList* lst);
+void createEmptyList(SingleSourceMovesList* lst);
+
 // ** Fucntion gets as parameters the data of the new Cell and inserting it to lst end ** //
 void insertDataToEndList(SingleSourceMovesList* lst, checkersPos* pos, unsigned short captures, SingleSourceMovesListCell* next);
 // ** Function gets list and the new tail of the list and inserting it ** //
@@ -53,6 +54,6 @@ bool isEmptyList(SingleSourceMovesList* lst);
 
 
 // test // 
-SingleSourceMovesList helperFindSingleSourceOptimalMove(SingleSourceMovesTreeNode* root);
-int findLenList(SingleSourceMovesList* lst);
+void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceMovesTreeNode* root, bool* isFound, SingleSourceMovesTreeNode* maxNode);
+//int findLenList(SingleSourceMovesList* lst);
 void insertToListStart(SingleSourceMovesList* lst, SingleSourceMovesTreeNode root);

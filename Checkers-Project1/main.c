@@ -36,8 +36,8 @@ void main()
 	SingleSourceMovesTree tr = *(FindSingleSourceMoves(board, &temp));
 	printTree(tr);
 	printf("Height: %d\n", findTreeHeight(&tr));
-//	max = getMaxPos(&tr);
-//	printf("MAX: Row: %c, Col: %c \n", max->pos->row, max->pos->col);
+	max = getMaxPos(&tr);
+	printf("MAX: Row: %c, Col: %c \n", max->pos->row, max->pos->col);
 	lst = FindSingleSourceOptimalMove(&tr);
 	printf("\n");
 	(isEmptyList(lst)) ? printf("Empty") : printf("Non Empty.");
@@ -53,6 +53,8 @@ void main()
 					{'B', ' ', 'B', ' ', ' ', ' ', 'B', ' '},//F
 					{' ', ' ', ' ', ' ', ' ', 'B', 'B', 'B'},//G
 					{' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B'} };//H
+
+					0x00007ff77e2e1fa5 {Checkers-Project1.exe!printf(const char * const _Format, ...), Line 963} {position=...}
 	*/	
 }
 

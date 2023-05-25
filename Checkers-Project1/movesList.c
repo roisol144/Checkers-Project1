@@ -63,19 +63,52 @@ bool isPosRight(checkersPos currPos, checkersPos lastPos)
 SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_tree)
 {
     SingleSourceMovesList res_lst;
-    res_lst = helperFindSingleSourceOptimalMove(moves_tree->source);
+    createEmptyList(&res_lst);
+    bool isFound = false;
+    SingleSourceMovesTreeNode* maxNode = getMaxPos(moves_tree);
+    helperFindSingleSourceOptimalMove(&res_lst,moves_tree->source,&isFound,maxNode);
     return &res_lst;
 }
 
+void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceMovesTreeNode* root,bool* isFound, SingleSourceMovesTreeNode* maxNode)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    if (root == maxNode)
+    {
+        *isFound = true;
+    }
+
+    helperFindSingleSourceOptimalMove(res, root->next_move[0], isFound, maxNode);
+
+    if (*isFound == true)
+    {
+        insertToListStart(res, *root);
+        return;
+    }
+
+    helperFindSingleSourceOptimalMove(res, root->next_move[1], isFound, maxNode);
+
+    if (*isFound == true)
+    {
+        insertToListStart(res, *root);
+        return;
+    }
+
+}
 
 
+/*
 SingleSourceMovesList helperFindSingleSourceOptimalMove(SingleSourceMovesTreeNode* root)
 {
     SingleSourceMovesList res_lst;
     SingleSourceMovesList left_branch,  right_branch;
     res_lst = *(createEmptyList(&res_lst));
 
-    // ** Chekcing base cases **//
+    //  Chekcing base cases 
     if (root == NULL) // if the tree is empty
         return res_lst;
 
@@ -132,9 +165,10 @@ SingleSourceMovesList helperFindSingleSourceOptimalMove(SingleSourceMovesTreeNod
     }
 }
 
+*/
 
 
-/*
+
 SingleSourceMovesTreeNode* getMaxPos(SingleSourceMovesTree* moves_tree)
 {
     SingleSourceMovesTreeNode* res;
@@ -244,13 +278,12 @@ void updateMax(Player p, SingleSourceMovesTreeNode*** tmpMax, SingleSourceMovesT
         break;
     }
 }
-*/
 
 
-SingleSourceMovesList* createEmptyList(SingleSourceMovesList* lst)
+
+void createEmptyList(SingleSourceMovesList* lst)
 {
     lst->head = lst->tail = NULL;
-    return lst;
 }
 
 int findLenList(SingleSourceMovesList* lst)
