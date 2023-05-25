@@ -93,9 +93,6 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 		else
 			r->next_move[1] = helper(tmpBoard, posRight, prevCaps, checkCapsOnly, p, true);
 
-	
-		
-	
 	return r;
 }
 

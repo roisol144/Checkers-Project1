@@ -31,6 +31,8 @@ void helperGetMaxPos(SingleSourceMovesTreeNode* root, SingleSourceMovesTreeNode*
 void updateMax(Player p, SingleSourceMovesTreeNode*** tmpMax, SingleSourceMovesTreeNode* root);
 // ** Function returns list of the best move of player ** //
 SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_tree);
+// ** Helper for FindSingleSourceOptimalMove **//
+void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceMovesTreeNode* root, bool* isFound, SingleSourceMovesTreeNode* maxNode);
 // ** Private case handling. ** //
 SingleSourceMovesTreeNode* privateCaseTreeOne(Player p, SingleSourceMovesTree* tr);
 // ** Function checks if the next move on the tree of the optimal move is right - return true if so ** //
@@ -50,10 +52,8 @@ void insertCellToEnd(SingleSourceMovesList* lst, SingleSourceMovesListCell* newT
 SingleSourceMovesListCell* createNewListCell(checkersPos* pos, unsigned short captures, SingleSourceMovesListCell* next);
 // ** Function for debugging the lst ** //
 void printList(SingleSourceMovesList* lst);
+
 bool isEmptyList(SingleSourceMovesList* lst);
 
-
-// test // 
-void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceMovesTreeNode* root, bool* isFound, SingleSourceMovesTreeNode* maxNode);
 //int findLenList(SingleSourceMovesList* lst);
 void insertToListStart(SingleSourceMovesList* lst, SingleSourceMovesTreeNode root);

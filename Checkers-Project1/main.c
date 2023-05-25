@@ -59,21 +59,7 @@ void main()
 		printf("Non Empty\n");
 		
 
-	printList(lst);
-	//dont work on this case because the final pos is left or equal to the original pos
-	/*
-		//1	   2    3    4    5    6    7    8
-	Board board = { {' ', ' ', ' ', 'T', ' ', ' ', ' ', ' '},//A
-					{' ', ' ', ' ', ' ', 'B', ' ', ' ', ' '},//B
-					{' ', ' ', ' ', 'T', ' ', ' ', ' ', ' '},//C
-					{' ', ' ', 'T', ' ', 'B', ' ', ' ', ' '},//D
-					{' ', 'B', ' ', ' ', ' ', 'B', ' ', ' '},//E
-					{'B', ' ', 'B', ' ', ' ', ' ', 'B', ' '},//F
-					{' ', ' ', ' ', ' ', ' ', 'B', 'B', 'B'},//G
-					{' ', ' ', ' ', '', ' ', ' ', ' ', 'B'} };//H
-
-					0x00007ff77e2e1fa5 {Checkers-Project1.exe!printf(const char * const _Format, ...), Line 963} {position=...}
-	*/	
+	printList(lst);	
 }
 
 

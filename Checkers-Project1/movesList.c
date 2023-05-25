@@ -2,70 +2,14 @@
 #include "movesTree.h"
 #define ERROR_LVL -1
 
-/*
-SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_tree)
-{
-	SingleSourceMovesList* res_lst;
-    //SingleSourceMovesListCell* currCell;
-    SingleSourceMovesTreeNode* currTreeNode;
-    SingleSourceMovesTreeNode* lstTail = getMaxPos(moves_tree); // returns the final Tree node that will be the the tail of the returned list.
-   // SingleSourceMovesListCell* newTail = createNewListCell(lstTail->pos, lstTail->total_captures_so_far, NULL); // converting tree node to lst node.
-    //int treeHeight = findTreeHeight(moves_tree);
-    //checkalloc
-    res_lst = (SingleSourceMovesList*)malloc(sizeof(SingleSourceMovesList));
-    createEmptyList(res_lst);
-    checkAlloc(res_lst, "return list of optimal move.\n");
-
-    // No possible move. 
-    if (moves_tree->source == NULL)
-        return NULL;
-
-    currTreeNode = moves_tree->source;
-    
-    while (currTreeNode != lstTail)
-    {
-        // inserting the current "root" to the lst.
-        insertDataToEndList(res_lst, currTreeNode->pos, currTreeNode->total_captures_so_far, NULL);
-
-        // checking if the next Tree Node is to the right
-        if (isPosRight(*(currTreeNode->pos),*(lstTail->pos)))
-        {
-            //go to the right node
-            currTreeNode = currTreeNode->next_move[1];
-        }
-        else
-        {
-            //go to the left node
-            currTreeNode = currTreeNode->next_move[0];
-        }
-    }
-    
-    // inserting the last node in the tree.
-    insertDataToEndList(res_lst, lstTail->pos, lstTail->total_captures_so_far, NULL);
-
-	return res_lst;
-} */
-
-/*
-bool isPosRight(checkersPos currPos, checkersPos lastPos)
-{
-    if (CHARTOCOL(currPos.col) < CHARTOCOL(lastPos.col)) // right
-    {
-        return true;
-    }
-    else // left
-    {
-        return false;
-    }
-}
-*/
-
 SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_tree)
 {
     SingleSourceMovesList* res_lst=(SingleSourceMovesList*)malloc(sizeof(SingleSourceMovesList));
     checkAlloc(res_lst,"list alloc failed");
     createEmptyList(res_lst);
     bool isFound = false;
+    // keeping the maxNode is the last node in the optimal branch of the tree
+    // that represents the possible moves.
     SingleSourceMovesTreeNode* maxNode = getMaxPos(moves_tree);
     helperFindSingleSourceOptimalMove(res_lst,moves_tree->source,&isFound,maxNode);
     return res_lst;
@@ -73,11 +17,12 @@ SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_
 
 void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceMovesTreeNode* root,bool* isFound, SingleSourceMovesTreeNode* maxNode)
 {
+    // if the root does not exist.
     if (root == NULL)
     {
         return;
     }
-
+    // if the desired node in the tree is found.
     if (root == maxNode)
     {
         *isFound = true;
@@ -100,75 +45,6 @@ void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceM
     }
 
 }
-
-
-/*
-SingleSourceMovesList helperFindSingleSourceOptimalMove(SingleSourceMovesTreeNode* root)
-{
-    SingleSourceMovesList res_lst;
-    SingleSourceMovesList left_branch,  right_branch;
-    res_lst = *(createEmptyList(&res_lst));
-
-    //  Chekcing base cases 
-    if (root == NULL) // if the tree is empty
-        return res_lst;
-
-    // incase there are no moves and the only position available is the current one.
-    if (root->next_move[0] == NULL && root->next_move[1] == NULL)
-    {
-        insertToListStart(&res_lst, *(root));
-        return res_lst;
-    }
-    // if the left branch is avaiable and the right is not.
-    if (root->next_move[0] != NULL && root->next_move[1] == NULL)
-    {
-        left_branch = helperFindSingleSourceOptimalMove(root->next_move[0]);
-        insertToListStart(&left_branch, *(root));
-        return left_branch;
-        
-    }
-    // if the right branch is avaiable and the left is not.
-    if (root->next_move[1] != NULL && root->next_move[0] == NULL)
-    {
-        right_branch = helperFindSingleSourceOptimalMove(root->next_move[1]);
-        insertToListStart(&right_branch, *(root));
-        return right_branch;
-    }
-
-    if (root->next_move[1] != NULL && root->next_move[0] != NULL)
-    {
-        left_branch = helperFindSingleSourceOptimalMove(root->next_move[0]);
-        right_branch = helperFindSingleSourceOptimalMove(root->next_move[1]);
-
-        if (right_branch.tail->captures > left_branch.tail->captures)
-        {
-            insertToListStart(&right_branch, *(root));
-            return right_branch;
-
-        }
-
-        else if (right_branch.tail->captures < left_branch.tail->captures)
-        {
-            insertToListStart(&left_branch, *(root));
-            return left_branch;
-        }
-
-        else if (findLenList(&left_branch) > findLenList(&right_branch))
-        {
-            insertToListStart(&left_branch, *(root));
-            return left_branch;
-        }
-        else
-        {
-            insertToListStart(&right_branch, *(root));
-            return right_branch;
-        }
-    }
-}
-
-*/
-
-
 
 SingleSourceMovesTreeNode* getMaxPos(SingleSourceMovesTree* moves_tree)
 {
@@ -282,7 +158,6 @@ void updateMax(Player p, SingleSourceMovesTreeNode*** tmpMax, SingleSourceMovesT
 }
 
 
-
 void createEmptyList(SingleSourceMovesList* lst)
 {
     lst->head = lst->tail = NULL;
@@ -354,9 +229,7 @@ void insertToListStart(SingleSourceMovesList* lst, SingleSourceMovesTreeNode roo
         lst->tail = newHead;
     }
     else
-    {
         lst->head = newHead;
-    }
 }
 
 
