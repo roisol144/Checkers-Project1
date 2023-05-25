@@ -2,7 +2,7 @@
 #include "movesTree.h"
 #define ERROR_LVL -1
 
-
+/*
 SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_tree)
 {
 	SingleSourceMovesList* res_lst;
@@ -44,8 +44,9 @@ SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_
     insertDataToEndList(res_lst, lstTail->pos, lstTail->total_captures_so_far, NULL);
 
 	return res_lst;
-}
+} */
 
+/*
 bool isPosRight(checkersPos currPos, checkersPos lastPos)
 {
     if (CHARTOCOL(currPos.col) < CHARTOCOL(lastPos.col)) // right
@@ -57,7 +58,83 @@ bool isPosRight(checkersPos currPos, checkersPos lastPos)
         return false;
     }
 }
+*/
 
+SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_tree)
+{
+    SingleSourceMovesList res_lst;
+    res_lst = helperFindSingleSourceOptimalMove(moves_tree->source);
+    return &res_lst;
+}
+
+
+
+SingleSourceMovesList helperFindSingleSourceOptimalMove(SingleSourceMovesTreeNode* root)
+{
+    SingleSourceMovesList res_lst;
+    SingleSourceMovesList left_branch,  right_branch;
+    res_lst = *(createEmptyList(&res_lst));
+
+    // ** Chekcing base cases **//
+    if (root == NULL) // if the tree is empty
+        return res_lst;
+
+    // incase there are no moves and the only position available is the current one.
+    if (root->next_move[0] == NULL && root->next_move[1] == NULL)
+    {
+        insertToListStart(&res_lst, *(root));
+        return res_lst;
+    }
+    // if the left branch is avaiable and the right is not.
+    if (root->next_move[0] != NULL && root->next_move[1] == NULL)
+    {
+        left_branch = helperFindSingleSourceOptimalMove(root->next_move[0]);
+        insertToListStart(&left_branch, *(root));
+        return left_branch;
+        
+    }
+    // if the right branch is avaiable and the left is not.
+    if (root->next_move[1] != NULL && root->next_move[0] == NULL)
+    {
+        right_branch = helperFindSingleSourceOptimalMove(root->next_move[1]);
+        insertToListStart(&right_branch, *(root));
+        return right_branch;
+    }
+
+    if (root->next_move[1] != NULL && root->next_move[0] != NULL)
+    {
+        left_branch = helperFindSingleSourceOptimalMove(root->next_move[0]);
+        right_branch = helperFindSingleSourceOptimalMove(root->next_move[1]);
+
+        if (right_branch.tail->captures > left_branch.tail->captures)
+        {
+            insertToListStart(&right_branch, *(root));
+            return right_branch;
+
+        }
+
+        else if (right_branch.tail->captures < left_branch.tail->captures)
+        {
+            insertToListStart(&left_branch, *(root));
+            return left_branch;
+        }
+
+        else if (findLenList(&left_branch) > findLenList(&right_branch))
+        {
+            insertToListStart(&left_branch, *(root));
+            return left_branch;
+        }
+        else
+        {
+            insertToListStart(&right_branch, *(root));
+            return right_branch;
+        }
+    }
+}
+
+
+
+/*
 SingleSourceMovesTreeNode* getMaxPos(SingleSourceMovesTree* moves_tree)
 {
     SingleSourceMovesTreeNode* res;
@@ -167,11 +244,31 @@ void updateMax(Player p, SingleSourceMovesTreeNode*** tmpMax, SingleSourceMovesT
         break;
     }
 }
+*/
 
 
 SingleSourceMovesList* createEmptyList(SingleSourceMovesList* lst)
 {
     lst->head = lst->tail = NULL;
+    return lst;
+}
+
+int findLenList(SingleSourceMovesList* lst)
+{
+    SingleSourceMovesListCell* curr = lst->head;
+    int res_len = 0;
+    if (isEmptyList(lst))
+        return 0;
+    else
+    {
+        while (curr != NULL)
+        {
+            res_len++;
+            curr = curr->next;
+        }
+    }
+
+    return res_len;
 }
 
 SingleSourceMovesListCell* createNewListCell(checkersPos* pos, unsigned short captures, SingleSourceMovesListCell* next)
@@ -203,14 +300,6 @@ bool isEmptyList(SingleSourceMovesList* lst)
         return true;
     return false;
 }
-/*
-void insertDataToEndList(SingleSourceMovesTree* moves_tree, SingleSourceMovesList* lst,checkersPos* pos, unsigned short captures, SingleSourceMovesListCell* next)
-{
-    SingleSourceMovesListCell* newCell;
-    newCell = createNewListCell(moves_tree->source->pos, moves_tree->source->total_captures_so_far, NULL);
-    insertCellToEnd(lst, newCell);
-
-}*/
 
 void insertDataToEndList(SingleSourceMovesList* lst, checkersPos* pos, unsigned short captures, SingleSourceMovesListCell* next)
 {
@@ -219,6 +308,23 @@ void insertDataToEndList(SingleSourceMovesList* lst, checkersPos* pos, unsigned 
     insertCellToEnd(lst, newCell);
 
 }
+
+void insertToListStart(SingleSourceMovesList* lst, SingleSourceMovesTreeNode root)
+{
+    SingleSourceMovesListCell* newHead;
+    newHead = createNewListCell(root.pos, root.total_captures_so_far, lst->head);
+    if (isEmptyList(lst))
+    {
+        lst->head = newHead;
+        lst->tail = newHead;
+    }
+    else
+    {
+        lst->head = newHead;
+    }
+}
+
+
 
 void insertCellToEnd(SingleSourceMovesList* lst, SingleSourceMovesListCell* newTail)
 {

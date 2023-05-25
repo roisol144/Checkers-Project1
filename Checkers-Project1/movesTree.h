@@ -33,6 +33,9 @@ SingleSourceMovesTree* FindSingleSourceMoves(Board board, checkersPos* src);
 // ** The function is the helper function of FindSingleSourceMoves - recursion occurs here. ** // 
 SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos, int prevCaps, bool checkCapsOnly, Player p, bool isMoved);
 
+SingleSourceMovesTreeNode* createTreeNode(Board board, checkersPos* currPos,
+	unsigned short prevCaps, SingleSourceMovesTreeNode* left, SingleSourceMovesTreeNode* right);
+
 
 // ** The function will check if the position is valid - on board. ** //
 bool isOnBoard(int row, int col);

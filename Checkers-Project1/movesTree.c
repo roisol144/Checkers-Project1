@@ -60,7 +60,7 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 	
 
 	//creating a new node
-	r = createTreeNode(board, currPos, prevCaps, checkCapsOnly, NULL, NULL);
+	r = createTreeNode(board, currPos, prevCaps, NULL, NULL);
 	
 	// here we check for the possible move on the left to our curr location
 	checkersPos* posLeft = getNextMove(board, *currPos, LEFT, checkCapsOnly,p, tmpBoard,isMoved);

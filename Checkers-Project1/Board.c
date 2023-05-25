@@ -131,7 +131,7 @@ void checkAlloc(void* ptr, char* msg)
 
 void printTurn(Board board, Player player, checkersPos src, checkersPos dst)
 {
-	printf("%c's turn:\n");
+	printf("%c's turn:\n", player);
 	printf("%c%c->%c%c\n", src.row, src.col, dst.row, dst.col);
 	//Turn function will be executed here before printing the board.
 	printBoard(board);

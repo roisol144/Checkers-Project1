@@ -49,3 +49,10 @@ void insertCellToEnd(SingleSourceMovesList* lst, SingleSourceMovesListCell* newT
 SingleSourceMovesListCell* createNewListCell(checkersPos* pos, unsigned short captures, SingleSourceMovesListCell* next);
 // ** Function for debugging the lst ** //
 void printList(SingleSourceMovesList* lst);
+bool isEmptyList(SingleSourceMovesList* lst);
+
+
+// test // 
+SingleSourceMovesList helperFindSingleSourceOptimalMove(SingleSourceMovesTreeNode* root);
+int findLenList(SingleSourceMovesList* lst);
+void insertToListStart(SingleSourceMovesList* lst, SingleSourceMovesTreeNode root);

@@ -6,6 +6,7 @@ void printTree(SingleSourceMovesTree tr);
 void helperPrint(SingleSourceMovesTreeNode* root);
 void main()
 {
+	/*
 					//1	   2    3    4    5    6    7    8
 	Board board = { {' ', ' ', ' ', 'T', ' ', ' ', ' ', ' '},//A
 					{' ', ' ', ' ', ' ', 'B', ' ', ' ', ' '},//B
@@ -15,6 +16,17 @@ void main()
 					{'B', ' ', 'B', ' ', ' ', ' ', 'B', ' '},//F
 					{' ', 'B', ' ', ' ', ' ', 'B', 'B', 'B'},//G
 					{' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B'} };//H
+					*/
+
+					//1	   2    3    4    5    6    7    8
+	Board board = { {' ', ' ', ' ', 'T', ' ', ' ', ' ', ' '},//A
+					{' ', ' ', ' ', ' ', 'B', ' ', ' ', ' '},//B
+					{' ', ' ', ' ', 'T', ' ', ' ', ' ', ' '},//C
+					{' ', ' ', 'T', ' ', 'B', ' ', ' ', ' '},//D
+					{' ', 'B', ' ', ' ', ' ', 'B', ' ', ' '},//E
+					{'B', ' ', 'B', ' ', ' ', ' ', 'B', ' '},//F
+					{' ', ' ', ' ', ' ', ' ', 'B', ' ', 'B'},//G
+					{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '} };//H
 					
 	//Board* board1 = initialBoard();
 	SingleSourceMovesTreeNode* max;
@@ -24,9 +36,12 @@ void main()
 	SingleSourceMovesTree tr = *(FindSingleSourceMoves(board, &temp));
 	printTree(tr);
 	printf("Height: %d\n", findTreeHeight(&tr));
-	max = getMaxPos(&tr);
-	printf("MAX: Row: %c, Col: %c \n", max->pos->row, max->pos->col);
+//	max = getMaxPos(&tr);
+//	printf("MAX: Row: %c, Col: %c \n", max->pos->row, max->pos->col);
 	lst = FindSingleSourceOptimalMove(&tr);
+	printf("\n");
+	(isEmptyList(lst)) ? printf("Empty") : printf("Non Empty.");
+	printList(lst);
 	//dont work on this case because the final pos is left or equal to the original pos
 	/*
 		//1	   2    3    4    5    6    7    8
@@ -38,10 +53,7 @@ void main()
 					{'B', ' ', 'B', ' ', ' ', ' ', 'B', ' '},//F
 					{' ', ' ', ' ', ' ', ' ', 'B', 'B', 'B'},//G
 					{' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B'} };//H
-	*/
-	printf("\n");
-	printList(lst);
-	
+	*/	
 }
 
 
