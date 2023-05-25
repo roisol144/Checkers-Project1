@@ -62,12 +62,13 @@ bool isPosRight(checkersPos currPos, checkersPos lastPos)
 
 SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_tree)
 {
-    SingleSourceMovesList res_lst;
-    createEmptyList(&res_lst);
+    SingleSourceMovesList* res_lst=(SingleSourceMovesList*)malloc(sizeof(SingleSourceMovesList));
+    checkAlloc(res_lst,"list alloc failed");
+    createEmptyList(res_lst);
     bool isFound = false;
     SingleSourceMovesTreeNode* maxNode = getMaxPos(moves_tree);
-    helperFindSingleSourceOptimalMove(&res_lst,moves_tree->source,&isFound,maxNode);
-    return &res_lst;
+    helperFindSingleSourceOptimalMove(res_lst,moves_tree->source,&isFound,maxNode);
+    return res_lst;
 }
 
 void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceMovesTreeNode* root,bool* isFound, SingleSourceMovesTreeNode* maxNode)
@@ -172,6 +173,7 @@ SingleSourceMovesList helperFindSingleSourceOptimalMove(SingleSourceMovesTreeNod
 SingleSourceMovesTreeNode* getMaxPos(SingleSourceMovesTree* moves_tree)
 {
     SingleSourceMovesTreeNode* res;
+    bool isFound = false;
     int row = CHARTOROW(moves_tree->source->pos->row);
     int col = CHARTOCOL(moves_tree->source->pos->col);
     Player p = moves_tree->source->board[row][col];
@@ -181,20 +183,20 @@ SingleSourceMovesTreeNode* getMaxPos(SingleSourceMovesTree* moves_tree)
     if (treeHeight == 1)
         return privateCaseTreeOne(p, moves_tree);
 
-    helperGetMaxPos(moves_tree->source, &res, treeHeight, p, false);
+    helperGetMaxPos(moves_tree->source, &res, treeHeight, p, &isFound);
     return res;
 }
 
-void helperGetMaxPos(SingleSourceMovesTreeNode* root, SingleSourceMovesTreeNode** tmpMax, int treeHeight, Player p, bool isFound)
+void helperGetMaxPos(SingleSourceMovesTreeNode* root, SingleSourceMovesTreeNode** tmpMax, int treeHeight, Player p, bool* isFound)
 {
     if (root == NULL)
         return;
 
     helperGetMaxPos(root->next_move[0], tmpMax, treeHeight, p, isFound);
     helperGetMaxPos(root->next_move[1], tmpMax, treeHeight, p, isFound);
-    if (!isFound && root->total_captures_so_far == treeHeight)
+    if (!(*isFound) && root->total_captures_so_far == treeHeight)
     {
-        isFound = true;
+        *isFound = true;
         *tmpMax = root;
     }
 

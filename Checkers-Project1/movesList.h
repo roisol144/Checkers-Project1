@@ -26,7 +26,7 @@ int findTreeHeight(SingleSourceMovesTree* moves_tree);
 int helperFindTreeHeight(SingleSourceMovesTreeNode* nodeP, int level);
 SingleSourceMovesTreeNode* getMaxPos(SingleSourceMovesTree* moves_tree);
 // ** helper getMaxPos ** //
-void helperGetMaxPos(SingleSourceMovesTreeNode* root, SingleSourceMovesTreeNode** tmpMax, int treeHeight, Player p, bool isFound);
+void helperGetMaxPos(SingleSourceMovesTreeNode* root, SingleSourceMovesTreeNode** tmpMax, int treeHeight, Player p, bool* isFound);
 // ** Function updating the value of the max tree node ** //
 void updateMax(Player p, SingleSourceMovesTreeNode*** tmpMax, SingleSourceMovesTreeNode* root);
 // ** Function returns list of the best move of player ** //
