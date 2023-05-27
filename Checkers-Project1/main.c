@@ -42,24 +42,29 @@ void main()
 	//Board* board1 = initialBoard();
 	SingleSourceMovesTreeNode* max;
 	SingleSourceMovesList* lst;
-	printBoard(fullBoard);
-	checkersPos temp = { 'F','5' };
-	SingleSourceMovesTree tr = *(FindSingleSourceMoves(fullBoard, &temp));
+	MultipleSourceMovesList* all_posibble_moves;
+	MultipleSourceMovesCell* curr;
+//	printBoard(board);
+	checkersPos temp = { 'A','4' };
+	SingleSourceMovesTree tr = *(FindSingleSourceMoves(board, &temp));
 	printTree(tr);
 	printf("Height: %d\n", findTreeHeight(&tr));
 	max = getMaxPos(&tr);
 	printf("MAX: Row: %c, Col: %c \n", max->pos->row, max->pos->col);
 	lst = FindSingleSourceOptimalMove(&tr);
-	
 	printf("\n");
-
-	if (isEmptyList(lst))
-		printf("Empty\n");
-	else
-		printf("Non Empty\n");
-		
-
-	printList(lst);	
+//	printList(lst);	
+	printf("\n");
+	all_posibble_moves = FindAllPossiblePlayerMoves(board, 'T');
+	curr = all_posibble_moves->head;
+	
+	while (curr != NULL)
+	{
+		printList(&(curr->single_source_moves_list));
+		printf("\n");
+		curr = curr->next;
+	}
+	
 }
 
 

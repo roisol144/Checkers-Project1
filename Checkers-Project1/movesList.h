@@ -18,6 +18,21 @@ typedef struct _SingleSourceMovesList
 	SingleSourceMovesListCell* tail;
 }SingleSourceMovesList;
 
+typedef struct _multipleSourceMovesListCell
+{
+	SingleSourceMovesList single_source_moves_list;
+	struct _multipleSourceMovesListCell* next;
+
+}MultipleSourceMovesCell;
+
+typedef struct _multipleSourceMovesList
+{
+	MultipleSourceMovesCell* head;
+	MultipleSourceMovesCell* tail;
+}MultipleSourceMovesList;
+
+
+
 
 
 // ** Function return the height of the tree ** //
@@ -57,3 +72,10 @@ bool isEmptyList(SingleSourceMovesList* lst);
 
 //int findLenList(SingleSourceMovesList* lst);
 void insertToListStart(SingleSourceMovesList* lst, SingleSourceMovesTreeNode root);
+
+
+//sq3
+MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player);
+bool isEmptyListOfLsts(MultipleSourceMovesList* lst);
+void createEmptyListOfLists(MultipleSourceMovesList* lst);
+void insertDataToEndListOfLsts(MultipleSourceMovesList* lst, SingleSourceMovesList data);

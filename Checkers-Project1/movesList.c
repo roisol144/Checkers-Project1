@@ -267,3 +267,70 @@ int helperFindTreeHeight(SingleSourceMovesTreeNode* nodeP, int level)
     }
 }
 
+
+MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player)
+{
+
+    SingleSourceMovesTree* treeMoves;
+    SingleSourceMovesList* listMoves;
+    checkersPos* pos = (checkersPos*)malloc(sizeof(checkersPos));
+    checkAlloc(pos, "pos.");
+
+    int i, j;
+    MultipleSourceMovesList* res_lst;
+    res_lst = (MultipleSourceMovesList*)malloc(sizeof(MultipleSourceMovesList));
+    checkAlloc(res_lst, "res_lst.");
+    createEmptyListOfLists(res_lst);
+
+    for (i = 0; i < BOARD_SIZE; i++)
+    {
+        for (j = 0; j < BOARD_SIZE; j++)
+        {
+            if (board[i][j] == player) // if player is the curr.
+            {
+                pos->row = (i + 65);
+                pos->col = (j + 49);
+                treeMoves = FindSingleSourceMoves(board, pos);
+                listMoves = FindSingleSourceOptimalMove(treeMoves);
+                insertDataToEndListOfLsts(res_lst, *listMoves);
+            }
+        }
+    }
+    return res_lst;
+}
+
+
+void createEmptyListOfLists(MultipleSourceMovesList* lst)
+{
+    lst->head = lst->tail = NULL;
+}
+bool isEmptyListOfLsts(MultipleSourceMovesList* lst)
+{
+    if (lst->head == NULL)
+        return true;
+
+    return false;
+}
+
+void insertDataToEndListOfLsts(MultipleSourceMovesList* lst, SingleSourceMovesList data)
+{
+    MultipleSourceMovesCell* newCell = (MultipleSourceMovesCell*)malloc(sizeof(MultipleSourceMovesCell));
+    checkAlloc(newCell, "newListCell.");
+
+    newCell->single_source_moves_list = data;
+    newCell->next = NULL;
+
+    if (isEmptyListOfLsts(lst))
+    {
+        lst->head = newCell;
+        lst->tail = newCell;
+    }
+    else
+    {
+        lst->tail->next = newCell;
+        lst->tail = newCell;
+    }
+}
+
+
+
