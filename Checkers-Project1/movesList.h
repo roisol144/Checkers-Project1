@@ -20,7 +20,7 @@ typedef struct _SingleSourceMovesList
 
 typedef struct _multipleSourceMovesListCell
 {
-	SingleSourceMovesList single_source_moves_list;
+	SingleSourceMovesList* single_source_moves_list;
 	struct _multipleSourceMovesListCell* next;
 
 }MultipleSourceMovesCell;
@@ -77,5 +77,11 @@ void insertToListStart(SingleSourceMovesList* lst, SingleSourceMovesTreeNode roo
 //sq3
 MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player);
 bool isEmptyListOfLsts(MultipleSourceMovesList* lst);
-void createEmptyListOfLists(MultipleSourceMovesList* lst);
-void insertDataToEndListOfLsts(MultipleSourceMovesList* lst, SingleSourceMovesList data);
+MultipleSourceMovesList* createEmptyListOfLists();
+void insertDataToEndListOfLsts(MultipleSourceMovesList* lst, MultipleSourceMovesCell* newCell);
+checkersPos* createPos(int row, int col);
+MultipleSourceMovesCell* createListOfListsCell(SingleSourceMovesList* lst);
+
+// ** free ** //
+void freeSingleSourceMovesList(SingleSourceMovesList* lst);
+

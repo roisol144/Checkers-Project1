@@ -326,4 +326,35 @@ void helperPrint(SingleSourceMovesTreeNode* root)
 	helperPrint(root->next_move[RIGHT]);
 }
 
+void freeSingleSourceMovesTree(SingleSourceMovesTree* tr)
+{
+	if (tr)
+	{
+		freeSingleSourceMovesTreeNode(tr->source);
+		free(tr);
+	}
+}
+
+
+void freeSingleSourceMovesTreeNode(SingleSourceMovesTreeNode* nodeP)
+{
+	if (nodeP->next_move[0] == NULL && nodeP->next_move[1] == NULL)
+	{
+		free(nodeP->pos);
+		free(nodeP);
+		return;
+	}
+	else
+	{
+		if (nodeP->next_move[0])
+			freeSingleSourceMovesTreeNode(nodeP->next_move[0]);
+		if (nodeP->next_move[1])
+			freeSingleSourceMovesTreeNode(nodeP->next_move[1]);
+
+		free(nodeP->pos);
+		free(nodeP);
+		return;
+	}
+}
+
 

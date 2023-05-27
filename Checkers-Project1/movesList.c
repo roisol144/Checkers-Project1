@@ -270,45 +270,71 @@ int helperFindTreeHeight(SingleSourceMovesTreeNode* nodeP, int level)
 
 MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player)
 {
-
+    MultipleSourceMovesList* res_lst;
     SingleSourceMovesTree* treeMoves;
     SingleSourceMovesList* listMoves;
-    checkersPos* pos;
-   
+    MultipleSourceMovesCell* newCell;
     int i, j;
-    MultipleSourceMovesList* res_lst;
-    res_lst = (MultipleSourceMovesList*)malloc(sizeof(MultipleSourceMovesList));
-    checkAlloc(res_lst, "res_lst.");
-    createEmptyListOfLists(res_lst);
+    checkersPos* pos;
+    res_lst = createEmptyListOfLists();
+   
+
 
     for (i = 0; i < BOARD_SIZE; i++)
     {
         for (j = 0; j < BOARD_SIZE; j++)
         {
-            pos = (checkersPos*)malloc(sizeof(checkersPos));
-            checkAlloc(pos, "pos.");
             if (board[i][j] == player) // if player is the curr.
-            {           
-                pos->row = (i + 65);
-                pos->col = (j + 49);              
+            {
+                pos = createPos(i, j);
                 treeMoves = FindSingleSourceMoves(board, pos);
                 listMoves = FindSingleSourceOptimalMove(treeMoves);
-                insertDataToEndListOfLsts(res_lst, *listMoves);
-                
+                newCell = createListOfListsCell(listMoves);
+                insertDataToEndListOfLsts(res_lst, newCell);
+               // freeSingleSourceMovesTree(treeMoves);
             }
-           
         }
-        free(pos);
     }
-    
     return res_lst;
 }
 
 
-void createEmptyListOfLists(MultipleSourceMovesList* lst)
+checkersPos* createPos(int row, int col)
 {
-    lst->head = lst->tail = NULL;
+    checkersPos* pos;
+    pos = (checkersPos*)malloc(sizeof(checkersPos));  
+    checkAlloc(pos, "pos.");                            
+
+    row = row + 65;                                    
+    col = col + 49;
+    pos->row = (char)row;
+    pos->col = (char)col;
+
+    return pos;
 }
+
+
+MultipleSourceMovesList* createEmptyListOfLists()
+{
+    MultipleSourceMovesList* lst;
+    lst = (MultipleSourceMovesList*)malloc(sizeof(MultipleSourceMovesList));
+    checkAlloc(lst, "res_lst.");
+
+    lst->head = lst->tail = NULL;
+    return lst;
+}
+
+MultipleSourceMovesCell* createListOfListsCell(SingleSourceMovesList* lst)
+{
+    MultipleSourceMovesCell* res_cell = (MultipleSourceMovesCell*)malloc(sizeof(MultipleSourceMovesCell));
+    checkAlloc(res_cell, "res_cell");
+
+    res_cell->single_source_moves_list = lst;
+    res_cell->next = NULL;
+
+    return res_cell;
+}
+
 bool isEmptyListOfLsts(MultipleSourceMovesList* lst)
 {
     if (lst->head == NULL)
@@ -317,13 +343,8 @@ bool isEmptyListOfLsts(MultipleSourceMovesList* lst)
     return false;
 }
 
-void insertDataToEndListOfLsts(MultipleSourceMovesList* lst, SingleSourceMovesList data)
+void insertDataToEndListOfLsts(MultipleSourceMovesList* lst, MultipleSourceMovesCell* newCell)
 {
-    MultipleSourceMovesCell* newCell = (MultipleSourceMovesCell*)malloc(sizeof(MultipleSourceMovesCell));
-    checkAlloc(newCell, "newListCell.");
-
-    newCell->single_source_moves_list = data;
-    newCell->next = NULL;
 
     if (isEmptyListOfLsts(lst))
     {
@@ -335,6 +356,21 @@ void insertDataToEndListOfLsts(MultipleSourceMovesList* lst, SingleSourceMovesLi
         lst->tail->next = newCell;
         lst->tail = newCell;
     }
+}
+
+void freeSingleSourceMovesList(SingleSourceMovesList* lst)
+{
+    SingleSourceMovesListCell* curr = lst->head;
+    SingleSourceMovesListCell* prevCell = NULL;
+
+    while (curr != NULL)
+    {
+        prevCell = curr;
+        curr = curr->next;
+        free(prevCell->position);
+        free(prevCell);
+    }
+    free(lst);
 }
 
 

@@ -60,11 +60,10 @@ void main()
 	
 	while (curr != NULL)
 	{
-		printList(&(curr->single_source_moves_list));
+		printList(curr->single_source_moves_list);
 		printf("\n");
 		curr = curr->next;
 	}
-	
 }
 
 

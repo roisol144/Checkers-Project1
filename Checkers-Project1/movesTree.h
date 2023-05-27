@@ -46,4 +46,8 @@ void printTree(SingleSourceMovesTree tr);
 void helperPrint(SingleSourceMovesTreeNode* root);
 
 
+// ** free **//
+
+void freeSingleSourceMovesTree(SingleSourceMovesTree* tr);
+void freeSingleSourceMovesTreeNode(SingleSourceMovesTreeNode* nodeP);
 
