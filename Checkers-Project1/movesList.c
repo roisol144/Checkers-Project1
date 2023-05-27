@@ -273,9 +273,8 @@ MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player)
 
     SingleSourceMovesTree* treeMoves;
     SingleSourceMovesList* listMoves;
-    checkersPos* pos = (checkersPos*)malloc(sizeof(checkersPos));
-    checkAlloc(pos, "pos.");
-
+    checkersPos* pos;
+   
     int i, j;
     MultipleSourceMovesList* res_lst;
     res_lst = (MultipleSourceMovesList*)malloc(sizeof(MultipleSourceMovesList));
@@ -286,16 +285,22 @@ MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player)
     {
         for (j = 0; j < BOARD_SIZE; j++)
         {
+            pos = (checkersPos*)malloc(sizeof(checkersPos));
+            checkAlloc(pos, "pos.");
             if (board[i][j] == player) // if player is the curr.
-            {
+            {           
                 pos->row = (i + 65);
-                pos->col = (j + 49);
+                pos->col = (j + 49);              
                 treeMoves = FindSingleSourceMoves(board, pos);
                 listMoves = FindSingleSourceOptimalMove(treeMoves);
                 insertDataToEndListOfLsts(res_lst, *listMoves);
+                
             }
+           
         }
+        free(pos);
     }
+    
     return res_lst;
 }
 

@@ -53,7 +53,7 @@ void main()
 	printf("MAX: Row: %c, Col: %c \n", max->pos->row, max->pos->col);
 	lst = FindSingleSourceOptimalMove(&tr);
 	printf("\n");
-//	printList(lst);	
+	//printList(lst);	
 	printf("\n");
 	all_posibble_moves = FindAllPossiblePlayerMoves(board, 'T');
 	curr = all_posibble_moves->head;
