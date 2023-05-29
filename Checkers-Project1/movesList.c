@@ -286,12 +286,12 @@ MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player)
         {
             if (board[i][j] == player) // if player is the curr.
             {
-                pos = createPos(i, j);
+                pos = createPos(i, j); 
                 treeMoves = FindSingleSourceMoves(board, pos);
                 listMoves = FindSingleSourceOptimalMove(treeMoves);
                 newCell = createListOfListsCell(listMoves);
                 insertDataToEndListOfLsts(res_lst, newCell);
-               // freeSingleSourceMovesTree(treeMoves);
+                //freeSingleSourceMovesTree(treeMoves);
             }
         }
     }

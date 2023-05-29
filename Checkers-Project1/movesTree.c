@@ -338,7 +338,7 @@ void freeSingleSourceMovesTree(SingleSourceMovesTree* tr)
 
 void freeSingleSourceMovesTreeNode(SingleSourceMovesTreeNode* nodeP)
 {
-	if (nodeP->next_move[0] == NULL && nodeP->next_move[1] == NULL)
+	if (!nodeP->next_move[0] && !nodeP->next_move[1])
 	{
 		free(nodeP->pos);
 		free(nodeP);

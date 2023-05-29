@@ -128,12 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.c" />
+    <ClCompile Include="game.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="movesList.c" />
     <ClCompile Include="movesTree.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="movesList.h" />
     <ClInclude Include="movesTree.h" />
   </ItemGroup>
