@@ -2,13 +2,13 @@
 
 
 
-
-
-
 void Turn(Board board, Player player)
 {
 	MultipleSourceMovesList* bestMoves = FindAllPossiblePlayerMoves(board, player);
 	SingleSourceMovesList* bestMoveLst = getBestMove(*bestMoves, player);
+	printList(bestMoveLst); //Rabbitsss
+	printf("\n");
+
 	SingleSourceMovesListCell* currNode = bestMoveLst->head->next;
 	SingleSourceMovesListCell* prevNode = bestMoveLst->head;
 

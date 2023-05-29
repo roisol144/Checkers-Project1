@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "movesTree.h"
 #include "movesList.h"
+#include "game.h"
 void printTree(SingleSourceMovesTree tr);
 void helperPrint(SingleSourceMovesTreeNode* root);
 void main()
@@ -44,7 +45,8 @@ void main()
 	SingleSourceMovesList* lst;
 	MultipleSourceMovesList* all_posibble_moves;
 	MultipleSourceMovesCell* curr;
-//	printBoard(board);
+	printBoard(board);
+	/*Rabbit
 	checkersPos temp = { 'A','4' };
 	SingleSourceMovesTree tr = *(FindSingleSourceMoves(board, &temp));
 	printTree(tr);
@@ -64,7 +66,10 @@ void main()
 		printf("\n");
 		curr = curr->next;
 	}
+	*/
 
+	Turn(board, 'B');
+	printBoard(board);
 
 
 }
