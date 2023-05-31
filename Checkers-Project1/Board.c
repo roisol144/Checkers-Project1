@@ -1,4 +1,4 @@
-#include "Board.h"
+#include "game.h"
 #include<string.h>
 
 
@@ -92,7 +92,7 @@ bool isCheckerExist(Board board, checkersPos* pos, Player player)
 	}
 	return false;
 }
-
+/*
 void printBoard(Board board)
 {
 	printf("+-+-+-+-+-+-+-+-+-+\n");
@@ -116,6 +116,26 @@ void printBoard(Board board)
 	}
 	printf("+-+-+-+-+-+-+-+-+-+\n");
 }
+*/
+
+void printBoard(Board board)
+{
+	int i, j;
+	printf("+---+---+---+---+---+---+---+---+---+\n");
+	printf("|   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |\n");
+	printf("+---+---+---+---+---+---+---+---+---+\n");
+	for (i = 0; i < BOARD_SIZE; i++)  // ROWS
+	{
+		printf("| %c ", i + 'A');
+		for (j = 0; j < BOARD_SIZE; j++)  // COLS
+		{
+			printf("| %c ", board[i][j]);
+		}
+		printf("|\n");
+		printf("+---+---+---+---+---+---+---+---+---+\n");
+	}
+	printf("\n");
+}
 
 
 
@@ -135,4 +155,21 @@ void printTurn(Board board, Player player, checkersPos src, checkersPos dst)
 	printf("%c%c->%c%c\n", src.row, src.col, dst.row, dst.col);
 	//Turn function will be executed here before printing the board.
 	printBoard(board);
+}
+
+int remainingCheckers(Board board, Player player)
+{
+	int i, j;
+	int res = 0;
+	for (i = 0; i < BOARD_SIZE; i++)
+	{
+		for (j = 0; j < BOARD_SIZE; j++)
+		{
+			if (board[i][j] == player)
+			{
+				res++;
+			}
+		}
+	}
+	return res;
 }

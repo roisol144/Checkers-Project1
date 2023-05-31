@@ -1,4 +1,6 @@
 #pragma once
+#include "game.h"
+#include "movesList.h"
 #include "movesTree.h"
 #define _CRT_SECURE_NO_WARNINGS
 

@@ -40,3 +40,5 @@ void checkAlloc(void* ptr, char* msg);
 // ** This function will print the current player who's turn is to play
 // and the board after the action the player took ** //
 void printTurn(Board board, Player player, checkersPos src, checkersPos dst);
+
+int remainingCheckers(Board board, Player player);

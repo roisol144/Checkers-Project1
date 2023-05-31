@@ -1,5 +1,4 @@
-#include "Board.h"
-#include "movesTree.h"
+#include "game.h"
 #define NEXT_ARR_SIZE 2
 
 
@@ -31,7 +30,7 @@ SingleSourceMovesTree* FindSingleSourceMoves(Board board, checkersPos* src)
 	SingleSourceMovesTree* resTree; //This will be the returned tree.
 	Player p;
 	
-	if (!isCheckerExist(board, src, 'T') && !isCheckerExist(board, src, 'B'))
+	if (!isCheckerExist(board, src, PLAYER_TOP) && !isCheckerExist(board, src, PLAYER_BOTTOM))
 		return NULL;
 
 	else
@@ -75,7 +74,7 @@ SingleSourceMovesTreeNode* helper(Board board, checkersPos* currPos,int prevCaps
 		else
 			r->next_move[LEFT] = helper(tmpBoard, posLeft, prevCaps, checkCapsOnly, p,true);
 		
-		if (r->total_captures_so_far==0 && !isMoved)
+		if (r->total_captures_so_far == 0 && !isMoved)
 		{
 			checkCapsOnly = false;
 		}
@@ -106,7 +105,7 @@ bool isMoveCapture(checkersPos pos1, checkersPos pos2)
 
 bool isOnBoard(int row, int col)
 {
-	return ((row <= 7 && row >= 0) && (col <= 7 && col >= 0)) ? true : false;
+	return ((row <= LAST_ROW && row >= FIRST_ROW) && (col <= LAST_COL && col >= FIRST_COL)) ? true : false;
 }
 
 checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,Player p, Board tmpBoard,bool isMoved)
@@ -131,12 +130,12 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 	{
 	case LEFT: // check left move
 	{
-		if (p == 'T')
+		if (p == PLAYER_TOP)
 		{
 			if (isCapture) // in capture mode, check only capture moves
 			{
 				if (isOnBoard(currRow + 1, currCol - 1) && isOnBoard(currRow + 2, currCol - 2) &&
-					tmpBoard[currRow + 1][currCol - 1] == 'B' && tmpBoard[currRow + 2][currCol - 2] == ' ') // can capture left
+					tmpBoard[currRow + 1][currCol - 1] == PLAYER_BOTTOM && tmpBoard[currRow + 2][currCol - 2] == EMPTY_SQUARE) // can capture left
 				{
 					//give nextPos this pos and return
 					nextPos->row = pos.row + 2;
@@ -149,7 +148,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 			{
 				if(!isMoved)
 				{
-					if (isOnBoard(currRow + 1, currCol - 1) && tmpBoard[currRow + 1][currCol - 1] == ' ')
+					if (isOnBoard(currRow + 1, currCol - 1) && tmpBoard[currRow + 1][currCol - 1] == EMPTY_SQUARE)
 					{
 						//give nextPos this pos and return
 						nextPos->row = pos.row + 1;
@@ -157,7 +156,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 					}
 
 					if (isOnBoard(currRow + 1, currCol - 1) && isOnBoard(currRow + 2, currCol - 2) &&
-						tmpBoard[currRow + 1][currCol - 1] == 'B' && tmpBoard[currRow + 2][currCol - 2] == ' ') // can capture left
+						tmpBoard[currRow + 1][currCol - 1] == PLAYER_BOTTOM && tmpBoard[currRow + 2][currCol - 2] == EMPTY_SQUARE) // can capture left
 					{
 						//give nextPos this pos and return
 						nextPos->row = pos.row + 2;
@@ -169,14 +168,14 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 
 			}
 		}
-		else // p=='B'
+		else // p==PLAYER_BOTTOM
 		{
 			if (isCapture) // in capture mode, check only capture moves
 			{
 
 
 				if (isOnBoard(currRow - 1, currCol - 1) && isOnBoard(currRow - 2, currCol - 2) &&
-					tmpBoard[currRow - 1][currCol - 1] == 'T' && tmpBoard[currRow - 2][currCol - 2] == ' ') // can capture left
+					tmpBoard[currRow - 1][currCol - 1] == PLAYER_TOP && tmpBoard[currRow - 2][currCol - 2] == EMPTY_SQUARE) // can capture left
 				{
 					//give nextPos this pos and return
 					nextPos->row = pos.row - 2;
@@ -190,7 +189,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 			{
 				if(!isMoved)
 				{
-					if (isOnBoard(currRow - 1, currCol - 1) && tmpBoard[currRow - 1][currCol - 1] == ' ')
+					if (isOnBoard(currRow - 1, currCol - 1) && tmpBoard[currRow - 1][currCol - 1] == EMPTY_SQUARE)
 					{
 						//give nextPos this pos and return
 						nextPos->row = pos.row - 1;
@@ -198,7 +197,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 					}
 
 					if (isOnBoard(currRow - 1, currCol - 1) && isOnBoard(currRow - 2, currCol - 2) &&
-						tmpBoard[currRow - 1][currCol - 1] == 'T' && tmpBoard[currRow - 2][currCol - 2] == ' ') // can capture left
+						tmpBoard[currRow - 1][currCol - 1] == PLAYER_TOP && tmpBoard[currRow - 2][currCol - 2] == EMPTY_SQUARE) // can capture left
 					{
 						//give nextPos this pos and return
 						nextPos->row = pos.row - 2;
@@ -215,12 +214,12 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 
 	case RIGHT: // check right move
 	{
-		if (p == 'T')
+		if (p == PLAYER_TOP)
 		{
 			if (isCapture) // in capture mode, check only capture moves
 			{
 				if (isOnBoard(currRow + 1, currCol + 1) && isOnBoard(currRow + 2, currCol + 2) &&
-					tmpBoard[currRow + 1][currCol + 1] == 'B' && tmpBoard[currRow + 2][currCol + 2] == ' ') // can capture left
+					tmpBoard[currRow + 1][currCol + 1] == PLAYER_BOTTOM && tmpBoard[currRow + 2][currCol + 2] == EMPTY_SQUARE) // can capture left
 				{
 					//give nextPos this pos and return
 					nextPos->row = pos.row + 2;
@@ -233,7 +232,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 			{
 				if(!isMoved)
 				{
-					if (isOnBoard(currRow + 1, currCol + 1) && tmpBoard[currRow + 1][currCol + 1] == ' ')
+					if (isOnBoard(currRow + 1, currCol + 1) && tmpBoard[currRow + 1][currCol + 1] == EMPTY_SQUARE)
 					{
 						//give nextPos this pos and return
 						nextPos->row = pos.row + 1;
@@ -241,7 +240,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 					}
 
 					if (isOnBoard(currRow + 1, currCol + 1) && isOnBoard(currRow + 2, currCol + 2) &&
-						tmpBoard[currRow + 1][currCol + 1] == 'B' && tmpBoard[currRow + 2][currCol + 2] == ' ') // can capture left
+						tmpBoard[currRow + 1][currCol + 1] == PLAYER_BOTTOM && tmpBoard[currRow + 2][currCol + 2] == EMPTY_SQUARE) // can capture left
 					{
 						//give nextPos this pos and return
 						nextPos->row = pos.row + 2;
@@ -252,12 +251,12 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 				}
 			}
 		}
-		else // p=='B'
+		else // p==PLAYER_BOTTOM
 		{
 			if (isCapture) // in capture mode, check only capture moves
 			{
 				if (isOnBoard(currRow - 1, currCol + 1) && isOnBoard(currRow - 2, currCol + 2) &&
-					tmpBoard[currRow - 1][currCol + 1] == 'T' && tmpBoard[currRow - 2][currCol + 2] == ' ') // can capture left
+					tmpBoard[currRow - 1][currCol + 1] == PLAYER_TOP && tmpBoard[currRow - 2][currCol + 2] == EMPTY_SQUARE) // can capture left
 				{
 					//give nextPos this pos and return
 					nextPos->row = pos.row - 2;
@@ -270,7 +269,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 			{
 				if(!isMoved)
 				{
-					if (isOnBoard(currRow - 1, currCol + 1) && tmpBoard[currRow - 1][currCol + 1] == ' ')
+					if (isOnBoard(currRow - 1, currCol + 1) && tmpBoard[currRow - 1][currCol + 1] == EMPTY_SQUARE)
 					{
 						//give nextPos this pos and return
 						nextPos->row = pos.row - 1;
@@ -278,7 +277,7 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 					}
 
 					if (isOnBoard(currRow - 1, currCol + 1) && isOnBoard(currRow - 2, currCol + 2) &&
-						tmpBoard[currRow - 1][currCol + 1] == 'T' && tmpBoard[currRow - 2][currCol + 2] == ' ') // can capture left
+						tmpBoard[currRow - 1][currCol + 1] == PLAYER_TOP && tmpBoard[currRow - 2][currCol + 2] == EMPTY_SQUARE) // can capture left
 					{
 						//give nextPos this pos and return
 						nextPos->row = pos.row - 2;
@@ -298,10 +297,10 @@ checkersPos* getNextMove(Board board, checkersPos pos, int dir, bool isCapture,P
 	if (nextPos->row != 0 && nextPos->col != 0) // check if player can move
 	{
 		tmpBoard[CHARTOROW(nextPos->row)][CHARTOCOL(nextPos->col)] = p;
-		tmpBoard[currRow][currCol] = ' ';
+		tmpBoard[currRow][currCol] = EMPTY_SQUARE;
 		if (capturedPos.row != 0) // check if player captured
 		{
-			tmpBoard[CHARTOROW(capturedPos.row)][CHARTOCOL(capturedPos.col)] = ' ';
+			tmpBoard[CHARTOROW(capturedPos.row)][CHARTOCOL(capturedPos.col)] = EMPTY_SQUARE;
 		}
 
 		return nextPos;
@@ -338,7 +337,7 @@ void freeSingleSourceMovesTree(SingleSourceMovesTree* tr)
 
 void freeSingleSourceMovesTreeNode(SingleSourceMovesTreeNode* nodeP)
 {
-	if (!nodeP->next_move[0] && !nodeP->next_move[1])
+	if (!nodeP->next_move[LEFT] && !nodeP->next_move[RIGHT])
 	{
 		free(nodeP->pos);
 		free(nodeP);
@@ -346,10 +345,10 @@ void freeSingleSourceMovesTreeNode(SingleSourceMovesTreeNode* nodeP)
 	}
 	else
 	{
-		if (nodeP->next_move[0])
-			freeSingleSourceMovesTreeNode(nodeP->next_move[0]);
-		if (nodeP->next_move[1])
-			freeSingleSourceMovesTreeNode(nodeP->next_move[1]);
+		if (nodeP->next_move[LEFT])
+			freeSingleSourceMovesTreeNode(nodeP->next_move[LEFT]);
+		if (nodeP->next_move[RIGHT])
+			freeSingleSourceMovesTreeNode(nodeP->next_move[RIGHT]);
 
 		free(nodeP->pos);
 		free(nodeP);

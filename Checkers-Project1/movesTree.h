@@ -1,5 +1,6 @@
 #pragma once
 #include "Board.h"
+#include <stdbool.h>
 #include <math.h>
 
 

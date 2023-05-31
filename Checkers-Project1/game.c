@@ -6,7 +6,7 @@ void Turn(Board board, Player player)
 {
 	MultipleSourceMovesList* bestMoves = FindAllPossiblePlayerMoves(board, player);
 	SingleSourceMovesList* bestMoveLst = getBestMove(*bestMoves, player);
-	printList(bestMoveLst); //Rabbitsss
+	printList(bestMoveLst); 
 	printf("\n");
 
 	SingleSourceMovesListCell* currNode = bestMoveLst->head->next;
@@ -14,7 +14,7 @@ void Turn(Board board, Player player)
 
 	if (currNode->captures == 0)
 	{
-		board[CHARTOROW(prevNode->position->row)][CHARTOCOL(prevNode->position->col)] = ' ';
+		board[CHARTOROW(prevNode->position->row)][CHARTOCOL(prevNode->position->col)] = EMPTY_SQUARE;
 		board[CHARTOROW(currNode->position->row)][CHARTOCOL(currNode->position->col)] = player;
 	}
 	else
@@ -37,32 +37,32 @@ void movePlayer(Board board, Player p, checkersPos* origin, checkersPos* dest)
 	orgRow = CHARTOROW(origin->row);
 	orgCol = CHARTOCOL(origin->col);
 
-	board[orgRow][orgCol] = ' ';
+	board[orgRow][orgCol] = EMPTY_SQUARE;
 	board[destRow][destCol] = p;
 
 	switch (p)
 	{
-		case 'T':
+		case PLAYER_TOP:
 		{
 			if (destCol > orgCol) // right capture
 			{
-				board[orgRow + 1][orgCol + 1] = ' ';
+				board[orgRow + 1][orgCol + 1] = EMPTY_SQUARE;
 			}
 			else // left move
 			{
-				board[orgRow + 1][orgCol - 1] = ' ';
+				board[orgRow + 1][orgCol - 1] = EMPTY_SQUARE;
 			}
 			break;
 		}
-		case 'B':
+		case PLAYER_BOTTOM:
 		{
 			if (destCol > orgCol) // right capture
 			{
-				board[orgRow - 1][orgCol + 1] = ' ';
+				board[orgRow - 1][orgCol + 1] = EMPTY_SQUARE;
 			}
 			else // left move
 			{
-				board[orgRow - 1][orgCol - 1] = ' ';
+				board[orgRow - 1][orgCol - 1] = EMPTY_SQUARE;
 			}
 			break;
 		}
@@ -126,7 +126,7 @@ bool comparePositions(checkersPos* resPos, checkersPos* currPos,Player p)
 
 	switch (p)
 	{
-		case 'T':
+		case PLAYER_TOP:
 		{
 			if (currRow > resRow)
 			{
@@ -140,7 +140,7 @@ bool comparePositions(checkersPos* resPos, checkersPos* currPos,Player p)
 
 			break;
 		}
-		case 'B':
+		case PLAYER_BOTTOM:
 		{
 			if (currRow < resRow)
 			{
@@ -162,6 +162,33 @@ bool comparePositions(checkersPos* resPos, checkersPos* currPos,Player p)
 }
 
 
+Player changePlayerTurn(Player current)
+{
+	if (current = PLAYER_TOP)
+	{
+		return PLAYER_BOTTOM;
+	}
+
+	return PLAYER_TOP;
+}
+
+
+void gameOverMSG(Player player)
+{
+	printf("Player %c wins!", player);
+	
+}
+
+
+/*
+bool gameOver(Board board, Player player)
+{
+	Player secPlayer;
+}
+*/
+
 
 
 //void PlayGame(Board board, Player starting_player);
+
+

@@ -1,13 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include "Board.h"
-#include "movesTree.h"
-#include "movesList.h"
 #include "game.h"
 void printTree(SingleSourceMovesTree tr);
 void helperPrint(SingleSourceMovesTreeNode* root);
 void main()
 {
-	/*
+	
 					//1	   2    3    4    5    6    7    8
 	Board board = { {' ', ' ', ' ', 'T', ' ', ' ', ' ', ' '},//A
 					{' ', ' ', ' ', ' ', 'B', ' ', ' ', ' '},//B
@@ -17,9 +14,9 @@ void main()
 					{'B', ' ', 'B', ' ', ' ', ' ', 'B', ' '},//F
 					{' ', 'B', ' ', ' ', ' ', 'B', 'B', 'B'},//G
 					{' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B'} };//H
-					*/
+					
 
-					//1	   2    3    4    5    6    7    8
+	/*				//1	   2    3    4    5    6    7    8
 	Board board = { {' ', ' ', ' ', 'T', ' ', ' ', ' ', ' '},//A
 					{' ', 'T', ' ', ' ', 'B', 'T', ' ', ' '},//B
 					{' ', ' ', 'T', 'T', 'T', ' ', ' ', ' '},//C
@@ -29,7 +26,7 @@ void main()
 					{' ', 'B', 'T', ' ', 'T', 'B', ' ', 'B'},//G
 					{' ', ' ', ' ', 'B', ' ', ' ', ' ', ' '} };//H
 
-
+*/
 						//1	   2    3    4    5    6    7    8
 	Board fullBoard = { {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},//A
 					    {'T', ' ', 'T', ' ', 'T', ' ', 'T', ' '},//B

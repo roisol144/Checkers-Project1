@@ -1,5 +1,5 @@
-#include "movesList.h"
-#include "movesTree.h"
+#include "game.h"
+
 #define ERROR_LVL -1
 
 SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_tree)
@@ -83,6 +83,11 @@ void helperGetMaxPos(SingleSourceMovesTreeNode* root, SingleSourceMovesTreeNode*
 }
 
 
+
+// ** Possible bug needs attention ** //
+// *** Not all control paths return a value *** //
+
+
 SingleSourceMovesTreeNode* privateCaseTreeOne(Player p, SingleSourceMovesTree* tr)
 {
     // in case the tree is only a leaf.
@@ -93,7 +98,7 @@ SingleSourceMovesTreeNode* privateCaseTreeOne(Player p, SingleSourceMovesTree* t
     {
         switch (p)
         {
-        case 'T':
+        case PLAYER_TOP:
             if (isMoveCapture(*(tr->source->next_move[RIGHT]->pos), *(tr->source->pos)))
             { // right move is capture - return right move
                 return tr->source->next_move[RIGHT];
@@ -106,7 +111,7 @@ SingleSourceMovesTreeNode* privateCaseTreeOne(Player p, SingleSourceMovesTree* t
                 }
                 return tr->source->next_move[RIGHT];
             }
-        case 'B':
+        case PLAYER_BOTTOM:
             if (isMoveCapture(*(tr->source->next_move[LEFT]->pos), *(tr->source->pos)))
             { // right move is capture - return right move
                 return tr->source->next_move[LEFT];
@@ -140,13 +145,13 @@ void updateMax(Player p, SingleSourceMovesTreeNode*** tmpMax, SingleSourceMovesT
 {
     switch (p)
     {
-    case 'T':
+    case PLAYER_TOP:
         if ((**tmpMax)->pos->col < root->pos->col)
         {
             **tmpMax = root;
         }
         break;
-    case 'B':
+    case PLAYER_BOTTOM:
         if ((**tmpMax)->pos->col > root->pos->col)
         {
             **tmpMax = root;
