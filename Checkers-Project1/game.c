@@ -196,7 +196,7 @@ void gameOverMSG(Player player)
 {
 	printf("%c wins!\n", player);
 	
-	printf("%c performed the highest number of captures in a single move - %d\n",maxCapsPlayer, maxCaps);	
+	
 }
 
 
