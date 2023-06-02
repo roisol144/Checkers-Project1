@@ -41,9 +41,7 @@ void Turn(Board board, Player player)
 	printf("%c%c->%c%c\n", bestMoveLst->head->position->row , bestMoveLst->head->position->col ,
 							bestMoveLst->tail->position->row, bestMoveLst->tail->position->col);
 
-	
-
-	
+	freeMultipulSourceMovesList(bestMoves);
 }
 
 void movePlayer(Board board, Player p, checkersPos* origin, checkersPos* dest)
@@ -267,7 +265,7 @@ void PlayGame(Board board, Player starting_player)
 	Player currentPlayer = starting_player;
 	Player prevPlayer = changePlayerTurn(currentPlayer);
 
-	initialBoard2(board);
+	initialBoard(board);
 	
 	printf("Checkers Game: \n");
 	printBoard(board);

@@ -296,7 +296,6 @@ MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player)
                 listMoves = FindSingleSourceOptimalMove(treeMoves);
                 newCell = createListOfListsCell(listMoves);
                 insertDataToEndListOfLsts(res_lst, newCell);
-                //freeSingleSourceMovesTree(treeMoves);
             }
         }
     }
@@ -378,5 +377,21 @@ void freeSingleSourceMovesList(SingleSourceMovesList* lst)
     free(lst);
 }
 
+
+void freeMultipulSourceMovesList(MultipleSourceMovesList* lst)
+{
+    MultipleSourceMovesCell* curr;
+    MultipleSourceMovesCell* prev = NULL;
+    curr = lst->head;
+
+    while (curr != NULL)
+    {
+        prev = curr;
+        curr = curr->next;
+        freeSingleSourceMovesList(prev->single_source_moves_list);
+        free(prev);
+    }
+    free(lst);
+}
 
 

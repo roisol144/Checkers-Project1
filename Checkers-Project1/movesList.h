@@ -69,21 +69,28 @@ void insertCellToEnd(SingleSourceMovesList* lst, SingleSourceMovesListCell* newT
 SingleSourceMovesListCell* createNewListCell(checkersPos* pos, unsigned short captures, SingleSourceMovesListCell* next);
 // ** Function for debugging the lst ** //
 void printList(SingleSourceMovesList* lst);
-
+// ** Function Checking if the list of type SingleSourceMovesList ** //
 bool isEmptyList(SingleSourceMovesList* lst);
-
+// ** Function returning the length if list of type SingleSourceMovesList ** //
 int findLenList(SingleSourceMovesList* lst);
+// ** function inserting to list start a node of a tree after moving its data to suitable type ** //
 void insertToListStart(SingleSourceMovesList* lst, SingleSourceMovesTreeNode root);
 
 
-//sq3
+// ** Function return multipleList of player's best moves of every piece ** //
 MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player);
+// ** Function check if a given list of type MultipleSourceMovesList is empty ** //
 bool isEmptyListOfLsts(MultipleSourceMovesList* lst);
+// ** Function creating An Empty List Of Type MultipleSourceMovesList **//
 MultipleSourceMovesList* createEmptyListOfLists();
+// ** Function inserting newCell of type MultipleSourceMovesCell to list of type MultipleSourceMovesList ** //
 void insertDataToEndListOfLsts(MultipleSourceMovesList* lst, MultipleSourceMovesCell* newCell);
+// ** Function Creates a new pos and mallocing it ** //
 checkersPos* createPos(int row, int col);
+// ** Function Creates A List Cell ** //
 MultipleSourceMovesCell* createListOfListsCell(SingleSourceMovesList* lst);
 
 // ** free ** //
 void freeSingleSourceMovesList(SingleSourceMovesList* lst);
+void freeMultipulSourceMovesList(MultipleSourceMovesList* lst);
 
