@@ -4,7 +4,7 @@ void printTree(SingleSourceMovesTree tr);
 void helperPrint(SingleSourceMovesTreeNode* root);
 void main()
 {
-	
+	/*
 					//1	   2    3    4    5    6    7    8
 	Board board = { {' ', ' ', ' ', 'T', ' ', ' ', ' ', ' '},//A
 					{' ', ' ', ' ', ' ', 'B', ' ', ' ', ' '},//B
@@ -15,7 +15,7 @@ void main()
 					{' ', 'B', ' ', ' ', ' ', 'B', 'B', 'B'},//G
 					{' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B'} };//H
 					
-
+*/
 	/*				//1	   2    3    4    5    6    7    8
 	Board board = { {' ', ' ', ' ', 'T', ' ', ' ', ' ', ' '},//A
 					{' ', 'T', ' ', ' ', 'B', 'T', ' ', ' '},//B
@@ -42,7 +42,7 @@ void main()
 	SingleSourceMovesList* lst;
 	MultipleSourceMovesList* all_posibble_moves;
 	MultipleSourceMovesCell* curr;
-	printBoard(board);
+//	printBoard(fullBoard);
 	/*Rabbit
 	checkersPos temp = { 'A','4' };
 	SingleSourceMovesTree tr = *(FindSingleSourceMoves(board, &temp));
@@ -64,11 +64,8 @@ void main()
 		curr = curr->next;
 	}
 	*/
-
-	Turn(board, 'B');
-	printBoard(board);
-
-
+	Board board;
+	PlayGame(board, 'T');
 }
 
 

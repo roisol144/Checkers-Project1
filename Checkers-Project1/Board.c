@@ -2,7 +2,7 @@
 #include<string.h>
 
 
-/*
+
 Board* initialBoard()
 {
 	Board* newBoard = (Board*)malloc(sizeof(Board));
@@ -43,7 +43,7 @@ Board* initialBoard()
 
 	return newBoard;
 }
-*/
+
 
 // ** Debug Board Exp. ** // 
 /*
@@ -56,30 +56,6 @@ Board board = { {' ', 'T', ' ', 'T', ' ', 'T', ' ', 'T'},
 				{' ', 'B', ' ', 'B', ' ', 'B', ' ', 'B'},
 				{'B', ' ', 'B', ' ', 'B', ' ', 'B', ' '}};
 */
-
-
-Board* initialBoard()
-{
-	Board* newBoard = (Board*)malloc(sizeof(Board));
-	checkAlloc(newBoard, "Board Allocation Failed.");
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			(*newBoard)[i][j] = ' ';
-
-		}
-	}
-	(*newBoard)[3][3] = 'T';
-	(*newBoard)[4][2] = 'B';
-	(*newBoard)[4][4] = 'B';
-	(*newBoard)[6][0] = 'B';
-	(*newBoard)[6][4] = 'B';
-	(*newBoard)[6][6] = 'B';
-
-	return newBoard;
-}
-
 
 bool isCheckerExist(Board board, checkersPos* pos, Player player)
 {

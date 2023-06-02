@@ -6,8 +6,7 @@ void Turn(Board board, Player player)
 {
 	MultipleSourceMovesList* bestMoves = FindAllPossiblePlayerMoves(board, player);
 	SingleSourceMovesList* bestMoveLst = getBestMove(*bestMoves, player);
-	printList(bestMoveLst); 
-	printf("\n");
+//	printList(bestMoveLst); 
 
 	SingleSourceMovesListCell* currNode = bestMoveLst->head->next;
 	SingleSourceMovesListCell* prevNode = bestMoveLst->head;
@@ -26,7 +25,7 @@ void Turn(Board board, Player player)
 			currNode = currNode->next;
 		}
 	}
-
+	printf("%c%c->%c%c\n", prevNode->position->row, prevNode->position->col, currNode->position->row, currNode->position->col);
 }
 
 void movePlayer(Board board, Player p, checkersPos* origin, checkersPos* dest)
@@ -164,7 +163,7 @@ bool comparePositions(checkersPos* resPos, checkersPos* currPos,Player p)
 
 Player changePlayerTurn(Player current)
 {
-	if (current = PLAYER_TOP)
+	if (current == PLAYER_TOP)
 	{
 		return PLAYER_BOTTOM;
 	}
@@ -185,16 +184,33 @@ bool gameOver(Board board, Player player)
 {
 	Player secPlayer;
 	secPlayer = changePlayerTurn(player); // save the other player.
-
-	if (remainingCheckers(board, player) == 0)
+	int i;
+	
+	// Game Over - player left with no checkers.
+	if (remainingCheckers(board, secPlayer) == 0)
 		return true;
 
-	else if (remainingCheckers(board, secPlayer))
-	{
-		return true;
-	}
+	// player reached the opponent's first row.
 	else
-		return false;
+	{
+		if (player == PLAYER_TOP)
+		{
+			for (i = 0; i < BOARD_SIZE; i++)
+			{
+				if (board[LAST_ROW][i] == PLAYER_TOP)
+					return true;
+			}
+		}
+		else
+		{
+			for (i = 0; i < BOARD_SIZE; i++)
+			{
+				if (board[FIRST_ROW][i] == PLAYER_BOTTOM)
+					return true;
+			}
+		}
+	}
+	return false; // incase the game is not over.
 }
 
 
@@ -203,27 +219,18 @@ bool gameOver(Board board, Player player)
 void PlayGame(Board board, Player starting_player)
 {
 	Player currentPlayer = starting_player;
-	Player nextPlayer = changePlayerTurn(currentPlayer);
+	Player prevPlayer = changePlayerTurn(currentPlayer);
 
 	board = initialBoard();
 	printf("Checkers Game: \n");
 	printBoard(board);
-	if(currentPlayer == PLAYER_BOTTOM || currentPlayer == PLAYER_TOP)
-	{ 
-		if (gameOver(board, currentPlayer))
-		{
-			gameOverMSG(currentPlayer);
-			return;
-		}
-
-		else
-		{
-			
-		}
-	}
-	else
+	while (!gameOver(board, prevPlayer))
 	{
-
+		printf("%c's turn:\n", currentPlayer);
+		Turn(board, currentPlayer);
+		printBoard(board);
+		prevPlayer = currentPlayer;
+		currentPlayer = changePlayerTurn(currentPlayer);
 	}
 }
 

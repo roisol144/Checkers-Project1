@@ -21,7 +21,7 @@ Player changePlayerTurn(Player current);
 bool gameOver(Board board, Player player);
 void gameOverMSG(Player player);
 
-//void PlayGame(Board board, Player starting_player);
+void PlayGame(Board board, Player starting_player);
 
 SingleSourceMovesList* getBestMove(MultipleSourceMovesList moves_lst, Player p);
 void movePlayer(Board board, Player p, checkersPos* origin, checkersPos* dest);
