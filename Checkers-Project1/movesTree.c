@@ -355,5 +355,3 @@ void freeSingleSourceMovesTreeNode(SingleSourceMovesTreeNode* nodeP)
 		return;
 	}
 }
-
-

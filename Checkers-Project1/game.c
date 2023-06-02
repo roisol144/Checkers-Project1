@@ -153,7 +153,7 @@ bool comparePositions(checkersPos* resPos, checkersPos* currPos,Player p)
 	currCol = currPos->col;
 
 	bool resBool = false;
-
+	//
 	switch (p)
 	{
 		case PLAYER_TOP:

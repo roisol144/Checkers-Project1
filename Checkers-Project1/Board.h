@@ -8,7 +8,7 @@
 
 #define BOARD_SIZE 8	// Size of board
 
-// Custing a char
+// Casting a char
 #define CHARTOROW( X ) ( ( X ) - 65 )	// Casting the Row according to ASCII values
 #define CHARTOCOL( X ) ( ( X ) - 49 )	// Casting the Col according to ASCII values
 
@@ -36,8 +36,5 @@ void printBoard(Board board);
 // ** Dynamic memory allocation checking function with adjusted message to usr ** // 
 void checkAlloc(void* ptr, char* msg);
 
-// ** This function will print the current player who's turn is to play
-// and the board after the action the player took ** //
-void printTurn(Board board, Player player, checkersPos src, checkersPos dst);
 // ** Function scanning board and counting how many pieces left for player. ** //
 int remainingCheckers(Board board, Player player);
