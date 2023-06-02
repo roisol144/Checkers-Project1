@@ -18,24 +18,17 @@ The game ends when one player captures all of the opponent's pieces or blocks th
 
 Here's an example of the game board, with '-' representing the borders of each cell and the players represented by 'T' and 'B' for the top and bottom players, respectively:
 
-|   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-+---+---+---+---+---+---+---+---+---+
-| A |   | T |   | T |   | T |   | T |
-+---+---+---+---+---+---+---+---+---+
-| B | T |   | T |   | T |   | T |   |
-+---+---+---+---+---+---+---+---+---+
-| C |   | T |   | T |   | T |   | T |
-+---+---+---+---+---+---+---+---+---+
-| D |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+
-| E |   |   |   |   |   |   |   |   |
-+---+---+---+---+---+---+---+---+---+
-| F | B |   | B |   | B |   | B |   |
-+---+---+---+---+---+---+---+---+---+
-| G |   | B |   | B |   | B |   | B |
-+---+---+---+---+---+---+---+---+---+
-| H | B |   | B |   | B |   | B |   |
-+---+---+---+---+---+---+---+---+---+
+
+
+   1  2  3  4  5  6  7  8
+A  -  T  -  T  -  T  -  T
+B  T  -  T  -  T  -  T  -
+C  -  T  -  T  -  T  -  T
+D  -  -  -  -  -  -  -  -
+E  -  -  -  -  -  -  -  -
+F  B  -  B  -  B  -  B  -
+G  -  B  -  B  -  B  -  B
+H  B  -  B  -  B  -  B  -
 
 In this example, the black pieces are represented by 'B', and the white pieces are represented by 'T'. The board consists of an 8x8 grid, and each player starts with 12 pieces placed in alternating cells.
 
