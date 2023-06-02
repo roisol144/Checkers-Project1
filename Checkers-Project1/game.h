@@ -18,6 +18,7 @@
 
 void Turn(Board board, Player player);
 Player changePlayerTurn(Player current);
+bool gameOver(Board board, Player player);
 void gameOverMSG(Player player);
 
 //void PlayGame(Board board, Player starting_player);

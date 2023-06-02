@@ -180,15 +180,51 @@ void gameOverMSG(Player player)
 }
 
 
-/*
+
 bool gameOver(Board board, Player player)
 {
 	Player secPlayer;
+	secPlayer = changePlayerTurn(player); // save the other player.
+
+	if (remainingCheckers(board, player) == 0)
+		return true;
+
+	else if (remainingCheckers(board, secPlayer))
+	{
+		return true;
+	}
+	else
+		return false;
 }
-*/
 
 
 
-//void PlayGame(Board board, Player starting_player);
+
+void PlayGame(Board board, Player starting_player)
+{
+	Player currentPlayer = starting_player;
+	Player nextPlayer = changePlayerTurn(currentPlayer);
+
+	board = initialBoard();
+	printf("Checkers Game: \n");
+	printBoard(board);
+	if(currentPlayer == PLAYER_BOTTOM || currentPlayer == PLAYER_TOP)
+	{ 
+		if (gameOver(board, currentPlayer))
+		{
+			gameOverMSG(currentPlayer);
+			return;
+		}
+
+		else
+		{
+			
+		}
+	}
+	else
+	{
+
+	}
+}
 
 
