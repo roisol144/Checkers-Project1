@@ -72,7 +72,7 @@ void printList(SingleSourceMovesList* lst);
 
 bool isEmptyList(SingleSourceMovesList* lst);
 
-//int findLenList(SingleSourceMovesList* lst);
+int findLenList(SingleSourceMovesList* lst);
 void insertToListStart(SingleSourceMovesList* lst, SingleSourceMovesTreeNode root);
 
 

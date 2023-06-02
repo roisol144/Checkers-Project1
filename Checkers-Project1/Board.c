@@ -100,6 +100,7 @@ void printBoard(Board board)
 	printf("+---+---+---+---+---+---+---+---+---+\n");
 	printf("|   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |\n");
 	printf("+---+---+---+---+---+---+---+---+---+\n");
+
 	for (i = 0; i < BOARD_SIZE; i++)  // ROWS
 	{
 		printf("| %c ", i + 'A');

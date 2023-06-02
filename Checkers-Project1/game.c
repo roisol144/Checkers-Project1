@@ -6,7 +6,7 @@ void Turn(Board board, Player player)
 {
 	MultipleSourceMovesList* bestMoves = FindAllPossiblePlayerMoves(board, player);
 	SingleSourceMovesList* bestMoveLst = getBestMove(*bestMoves, player);
-//	printList(bestMoveLst); 
+
 
 	SingleSourceMovesListCell* currNode = bestMoveLst->head->next;
 	SingleSourceMovesListCell* prevNode = bestMoveLst->head;
@@ -25,7 +25,12 @@ void Turn(Board board, Player player)
 			currNode = currNode->next;
 		}
 	}
-	printf("%c%c->%c%c\n", prevNode->position->row, prevNode->position->col, currNode->position->row, currNode->position->col);
+	printf("%c%c->%c%c\n", bestMoveLst->head->position->row , bestMoveLst->head->position->col ,
+							bestMoveLst->tail->position->row, bestMoveLst->tail->position->col);
+
+	
+
+	
 }
 
 void movePlayer(Board board, Player p, checkersPos* origin, checkersPos* dest)
@@ -77,10 +82,11 @@ SingleSourceMovesList* getBestMove(MultipleSourceMovesList moves_lst,Player p)
 	MultipleSourceMovesCell* curr_lst;
 
 	/*captures of the first optimal move*/
-	int maxCaptures = moves_lst.head->single_source_moves_list->tail->captures;;
+	int maxCaptures = moves_lst.head->single_source_moves_list->tail->captures;
 	int currCaps;
 	checkersPos* resPos;
 	checkersPos* currPos;
+	int currLstLen, resLstLen;
 
 	/*initialize variable to first move*/
 	res_lst = moves_lst.head->single_source_moves_list;
@@ -92,18 +98,32 @@ SingleSourceMovesList* getBestMove(MultipleSourceMovesList moves_lst,Player p)
 		if (currCaps > maxCaptures)
 		{
 			res_lst = curr_lst->single_source_moves_list;
+			maxCaptures = res_lst->tail->captures;
 		}
-		if (currCaps == maxCaptures)
+		else if (currCaps == maxCaptures)
 		{
-			/*send resLst and currLst and compare poses of the roots*/
-			/*if function return true - swap*/
-			resPos = res_lst->head->position;
-			currPos = curr_lst->single_source_moves_list->head->position;
+			currLstLen = findLenList(curr_lst->single_source_moves_list);
+			resLstLen = findLenList(res_lst);
 
-			if (comparePositions(resPos, currPos,p))
+			if (currLstLen > resLstLen)
 			{
 				res_lst = curr_lst->single_source_moves_list;
 			}
+
+			else if(currLstLen == resLstLen)
+			{
+
+				/*send resLst and currLst and compare poses of the roots*/
+				/*if function return true - swap*/
+				resPos = res_lst->head->position;
+				currPos = curr_lst->single_source_moves_list->head->position;
+
+				if (comparePositions(resPos, currPos, p))
+				{
+					res_lst = curr_lst->single_source_moves_list;
+				}
+			}
+			
 		}
 
 		curr_lst = curr_lst->next;
@@ -174,8 +194,9 @@ Player changePlayerTurn(Player current)
 
 void gameOverMSG(Player player)
 {
-	printf("Player %c wins!", player);
+	printf("%c wins!\n", player);
 	
+	printf("%c performed the highest number of captures in a single move - %d\n",maxCapsPlayer, maxCaps);	
 }
 
 
@@ -198,7 +219,10 @@ bool gameOver(Board board, Player player)
 			for (i = 0; i < BOARD_SIZE; i++)
 			{
 				if (board[LAST_ROW][i] == PLAYER_TOP)
+				{
 					return true;
+				}
+					
 			}
 		}
 		else
@@ -206,7 +230,10 @@ bool gameOver(Board board, Player player)
 			for (i = 0; i < BOARD_SIZE; i++)
 			{
 				if (board[FIRST_ROW][i] == PLAYER_BOTTOM)
+				{
 					return true;
+				}
+					
 			}
 		}
 	}
@@ -214,16 +241,17 @@ bool gameOver(Board board, Player player)
 }
 
 
-
-
 void PlayGame(Board board, Player starting_player)
 {
+	
 	Player currentPlayer = starting_player;
 	Player prevPlayer = changePlayerTurn(currentPlayer);
 
 	board = initialBoard();
+	
 	printf("Checkers Game: \n");
 	printBoard(board);
+
 	while (!gameOver(board, prevPlayer))
 	{
 		printf("%c's turn:\n", currentPlayer);
@@ -232,6 +260,8 @@ void PlayGame(Board board, Player starting_player)
 		prevPlayer = currentPlayer;
 		currentPlayer = changePlayerTurn(currentPlayer);
 	}
+
+	gameOverMSG(prevPlayer);
 }
 
 

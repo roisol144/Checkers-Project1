@@ -16,6 +16,8 @@
 #define LAST_COL 7
 
 
+
+
 void Turn(Board board, Player player);
 Player changePlayerTurn(Player current);
 bool gameOver(Board board, Player player);
