@@ -28,6 +28,8 @@ typedef struct _checkersPos
 
 // ** Function creates a new Board ** //
 Board* initialBoard();
+void initialBoard2(Board board);
+
 
 // ** Function Checking if there's a checker in certain place on board ** // 
 bool isCheckerExist(Board board, checkersPos* pos, Player player);

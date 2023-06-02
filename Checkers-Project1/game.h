@@ -14,6 +14,11 @@
 #define FIRST_COL 0
 #define LAST_ROW 7
 #define LAST_COL 7
+#define MOVES_T board[2][0]
+#define MOVES_B board[2][2]
+#define MAX_CAPS board[2][4]
+#define MAX_CAPS_PLAYER board[2][6]
+
 
 
 
@@ -21,7 +26,7 @@
 void Turn(Board board, Player player);
 Player changePlayerTurn(Player current);
 bool gameOver(Board board, Player player);
-void gameOverMSG(Player player);
+void gameOverMSG(Board board, Player player);
 
 void PlayGame(Board board, Player starting_player);
 

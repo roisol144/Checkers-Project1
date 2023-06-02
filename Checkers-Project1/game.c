@@ -25,6 +25,19 @@ void Turn(Board board, Player player)
 			currNode = currNode->next;
 		}
 	}
+	if (player == PLAYER_TOP)
+		MOVES_T++;
+
+	else
+		MOVES_B++;
+
+	if (MAX_CAPS < bestMoveLst->tail->captures)
+	{
+		
+		MAX_CAPS = bestMoveLst->tail->captures;
+		MAX_CAPS_PLAYER = player + 32;
+	}
+
 	printf("%c%c->%c%c\n", bestMoveLst->head->position->row , bestMoveLst->head->position->col ,
 							bestMoveLst->tail->position->row, bestMoveLst->tail->position->col);
 
@@ -192,11 +205,18 @@ Player changePlayerTurn(Player current)
 }
 
 
-void gameOverMSG(Player player)
+void gameOverMSG(Board board, Player player)
 {
 	printf("%c wins!\n", player);
-	
-	
+	if (player == PLAYER_TOP)
+	{
+		printf("%c performed %d moves.\n",player, MOVES_T);
+	}
+	else
+		printf("%c performed %d moves.\n", player, MOVES_B);
+
+	printf("%c performed the heighest number of captures in a single move - %d\n", MAX_CAPS_PLAYER - 32, MAX_CAPS);
+
 }
 
 
@@ -247,7 +267,7 @@ void PlayGame(Board board, Player starting_player)
 	Player currentPlayer = starting_player;
 	Player prevPlayer = changePlayerTurn(currentPlayer);
 
-	board = initialBoard();
+	initialBoard2(board);
 	
 	printf("Checkers Game: \n");
 	printBoard(board);
@@ -260,8 +280,7 @@ void PlayGame(Board board, Player starting_player)
 		prevPlayer = currentPlayer;
 		currentPlayer = changePlayerTurn(currentPlayer);
 	}
-
-	gameOverMSG(prevPlayer);
+	gameOverMSG(board, prevPlayer);
 }
 
 
