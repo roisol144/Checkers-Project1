@@ -194,15 +194,11 @@ SingleSourceMovesListCell* createNewListCell(checkersPos* pos, unsigned short ca
     newCell = (SingleSourceMovesListCell*)malloc(sizeof(SingleSourceMovesListCell));
     checkAlloc(newCell, "New List Cell.\n");
 
-    //new
     newCell->position = (checkersPos*)malloc(sizeof(checkersPos));
     newCell->position->row = pos->row;
     newCell->position->col = pos->col;
     
     newCell->captures = captures;
-    //old pos handle
-    //newCell->position = pos;
-    //
     newCell->next = next;
 
     return newCell;
@@ -306,7 +302,6 @@ MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player)
                 newCell = createListOfListsCell(listMoves);
                 insertDataToEndListOfLsts(res_lst, newCell);
 
-                //זה עובדדדד
                 freeSingleSourceMovesTree(treeMoves);
             }
         }
@@ -384,7 +379,6 @@ void freeSingleSourceMovesList(SingleSourceMovesList* lst)
     {
         prevCell = curr;
         curr = curr->next;
-        //זה גם ככה היה פה אז זה טיל
         free(prevCell->position);
         free(prevCell);
     }

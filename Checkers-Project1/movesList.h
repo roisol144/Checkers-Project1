@@ -52,9 +52,6 @@ SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_
 void helperFindSingleSourceOptimalMove(SingleSourceMovesList* res, SingleSourceMovesTreeNode* root, bool* isFound, SingleSourceMovesTreeNode* maxNode);
 // ** Private case handling. ** //
 SingleSourceMovesTreeNode* privateCaseTreeOne(Player p, SingleSourceMovesTree* tr);
-// ** Function checks if the next move on the tree of the optimal move is right - return true if so ** //
-//bool isPosRight(checkersPos currPos, checkersPos lastPos);
-
 
 // *** List Functions *** //
 
