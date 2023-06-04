@@ -12,6 +12,8 @@ SingleSourceMovesList* FindSingleSourceOptimalMove(SingleSourceMovesTree* moves_
     // that represents the possible moves.
     SingleSourceMovesTreeNode* maxNode = getMaxPos(moves_tree);
     helperFindSingleSourceOptimalMove(res_lst,moves_tree->source,&isFound,maxNode);
+
+   
     return res_lst;
 }
 
@@ -191,9 +193,16 @@ SingleSourceMovesListCell* createNewListCell(checkersPos* pos, unsigned short ca
     SingleSourceMovesListCell* newCell;
     newCell = (SingleSourceMovesListCell*)malloc(sizeof(SingleSourceMovesListCell));
     checkAlloc(newCell, "New List Cell.\n");
+
+    //new
+    newCell->position = (checkersPos*)malloc(sizeof(checkersPos));
+    newCell->position->row = pos->row;
+    newCell->position->col = pos->col;
     
     newCell->captures = captures;
-    newCell->position = pos;
+    //old pos handle
+    //newCell->position = pos;
+    //
     newCell->next = next;
 
     return newCell;
@@ -276,7 +285,7 @@ int helperFindTreeHeight(SingleSourceMovesTreeNode* nodeP, int level)
 MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player)
 {
     MultipleSourceMovesList* res_lst;
-    SingleSourceMovesTree* treeMoves;
+    SingleSourceMovesTree* treeMoves=NULL;
     SingleSourceMovesList* listMoves;
     MultipleSourceMovesCell* newCell;
     int i, j;
@@ -296,9 +305,13 @@ MultipleSourceMovesList* FindAllPossiblePlayerMoves(Board board, Player player)
                 listMoves = FindSingleSourceOptimalMove(treeMoves);
                 newCell = createListOfListsCell(listMoves);
                 insertDataToEndListOfLsts(res_lst, newCell);
+
+                //זה עובדדדד
+                freeSingleSourceMovesTree(treeMoves);
             }
         }
     }
+    
     return res_lst;
 }
 
@@ -371,6 +384,7 @@ void freeSingleSourceMovesList(SingleSourceMovesList* lst)
     {
         prevCell = curr;
         curr = curr->next;
+        //זה גם ככה היה פה אז זה טיל
         free(prevCell->position);
         free(prevCell);
     }
